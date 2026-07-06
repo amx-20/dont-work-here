@@ -73,3 +73,10 @@ main {
 .company-card p {
     margin-bottom: 8px;
 }
+.company-card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
