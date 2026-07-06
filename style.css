@@ -1,0 +1,75 @@
+/* Reset some default browser spacing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Entire page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+/* Header */
+header {
+    background-color: #1f2937;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.1rem;
+    color: #d1d5db;
+}
+
+/* Main content area */
+main {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+/* Company List */
+
+.companies {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Company Card */
+
+.company-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.company-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.company-card h2 {
+    margin-bottom: 15px;
+}
+
+.company-card p {
+    margin-bottom: 8px;
+}
