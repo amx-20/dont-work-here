@@ -14,7 +14,7 @@ fetch(API_URL)
                 <div class="company-card">
                     <h2>${review["Company Name"]}</h2>
                     <p>⭐ ${review["Overall Rating of Employment Experience"]}</p>
-                    <p>📍 ${review["Branch"]}</p>
+                    <p>${review["Branch"]}</p>
                     <p><strong>Account:</strong> ${review["Project/Account"]}</p>
                     <p><strong>Job:</strong> ${review["Job Title"]}</p>
                     <p><strong>Pros:</strong> ${review["What were the primary pros of working here?"]}</p>
