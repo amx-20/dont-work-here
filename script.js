@@ -6,23 +6,22 @@ fetch(API_URL)
     .then(response => response.json())
     .then(data => {
 
-        console.log(data);
+        companiesDiv.innerHTML = "";
 
         data.forEach(review => {
 
             companiesDiv.innerHTML += `
                 <div class="company-card">
-                    <h2>${review["Company Name"]}</h2>
-                    <p>⭐ ${review["Overall Rating of Employment Experience"]}</p>
-                    <p>${review["Branch"]}</p>
-                    <p><strong>Account:</strong> ${review["Project/Account"]}</p>
-                    <p><strong>Job:</strong> ${review["Job Title"]}</p>
-                    <p><strong>Pros:</strong> ${review["What were the primary pros of working here?"]}</p>
-                    <p><strong>Cons:</strong> ${review["What were the primary cons of working here?"]}</p>
-                    <p><strong>Recommend:</strong> ${review["Would you recommend this company to others?"]}</p>
+                    <h2>${review.company_name}</h2>
+                    <p>⭐ ${review.overall_rating}</p>
+                    <p>📍 ${review.branch}</p>
+                    <p><strong>Account:</strong> ${review.account}</p>
+                    <p><strong>Job:</strong> ${review.job_title}</p>
+                    <p><strong>Pros:</strong> ${review.pros}</p>
+                    <p><strong>Cons:</strong> ${review.cons}</p>
+                    <p><strong>Recommend:</strong> ${review.would_recommend}</p>
                 </div>
             `;
-
         });
 
     })
