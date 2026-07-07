@@ -10,6 +10,8 @@ fetch(API_URL)
 
         data.forEach(review => {
 
+            console.log(review);
+
             companiesDiv.innerHTML += `
                 <div class="company-card">
                     <h2>${review.company_name}</h2>
