@@ -6,23 +6,46 @@ fetch(API_URL)
     .then(response => response.json())
     .then(data => {
 
-        companiesDiv.innerHTML = "";
+companiesDiv.innerHTML = "";
 
-        data.forEach(review => {
+// Group reviews by company
+const companies = {};
 
-            companiesDiv.innerHTML += `
-                <div class="company-card">
-                    <h2>${review.company_name}</h2>
-                    <p>⭐ ${review.overall_rating}</p>
-                    <p>📍 ${review.branch}</p>
-                    <p><strong>Account:</strong> ${review.account}</p>
-                    <p><strong>Job:</strong> ${review.job_title}</p>
-                    <p><strong>Pros:</strong> ${review.pros}</p>
-                    <p><strong>Cons:</strong> ${review.cons}</p>
-                    <p><strong>Recommend:</strong> ${review.would_recommend}</p>
-                </div>
-            `;
-        });
+data.forEach(review => {
 
+                if (!companies[review.company_name]) {
+
+                    companies[review.company_name] = {
+                        name: review.company_name,
+                        reviews: [],
+                        totalRating: 0
+                    };
+
+                }
+
+                companies[review.company_name].reviews.push(review);
+                companies[review.company_name].totalRating += Number(review.overall_rating);
+
+            });
+
+            // Display one card per company
+            Object.values(companies).forEach(company => {
+
+                const averageRating =
+                    (company.totalRating / company.reviews.length).toFixed(1);
+
+                companiesDiv.innerHTML += `
+                    <div class="company-card">
+                        <h2>${company.name}</h2>
+                        <p>⭐ ${averageRating}</p>
+                        <p>${company.reviews.length} Review(s)</p>
+
+                        <button>
+                            View Reviews
+                        </button>
+                    </div>
+                `;
+
+            });
     })
     .catch(error => console.error(error));
