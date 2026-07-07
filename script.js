@@ -1,22 +1,14 @@
-const API_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnS0UmPdi4mHXxfGXDgILA3vZfKF5m5sgI6HpFQ0Aa1_DPI4SGG0VV18gYkZUJtNu--nCpUmHkVlXFZKU5y6UkeOy8KZfGtLBBf_eJ5Fc-Q4YrgPvD5QPCoIoVsHChQgWS4zzi6EUllpsH-DE2zfooHf16fAAFkTkPKJpQhck3GW0l4n_uhKZVhB4IB0Mw6SQ75wHI9LkFoL0IG1TIthxhgJVs6fjxVg7zoVhialvI44cVhXE1M&lib=MaQxjQjLTcTJSyY71HQPmM36CZDhuSRl7";
+const API_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnR_Yzst6ad2MiRsNP5pIweHMd7DAXwesD4AjSPc4PyDqU9o1K-NSny1HSM7bOoKLGFP1npEjLPhwDmybg0a7lkWT6FJEiOrFXR6tI4JyrlJUfZWcyhXjEHMcdRGMLN3JGs2WUrzyXAu7rWpcsVvkkM31952mHM6o_jjFa3uPuuhlllTX1icfsvDOeXFArWp807dAtwvLMANXzjlY8O3LaVsfL59VslZbXB4IV0Bx4MseLeZqV8&lib=MaQxjQjLTcTJSyY71HQPmM36CZDhuSRl7";
 
 const companiesDiv = document.getElementById("companies");
 
 fetch(API_URL)
-    .then(response => response.json())
-    .then(data => {
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
 
-        data.forEach(review => {
-
-            companiesDiv.innerHTML += `
-                <div class="company-card">
-                    <h2>${review.company_name}</h2>
-                    <p>⭐ ${review.overall_rating}</p>
-                    <p>${review.branch}</p>
-                </div>
-            `;
-
-        });
-
-    })
-    .catch(error => console.error(error));
+    companiesDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+  })
+  .catch(error => {
+    console.error(error);
+  });
