@@ -35,7 +35,7 @@ data.forEach(review => {
                     (company.totalRating / company.reviews.length).toFixed(1);
 
                 companiesDiv.innerHTML += `
-                    <div class="company-card"
+                        <div class="company-card"
                         onclick="window.location.href='company.html?company=${encodeURIComponent(company.name)}'">
                         <h2>${company.name}</h2>
                         <p>⭐ ${averageRating}</p>
