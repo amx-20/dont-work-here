@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbxoiZ1Toe9nYZvnCTE2tzuaB4kPUmLNJ5mlA_KLrxNh1Yq47WBOlTHmCvdexfndE5u4/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwP-jab4KFiOaZpb0dXL2Mcn02wkSAy5dYwurKK_oakaP_vvbrHdWqPtXq7RKPj1NSv/exec";
 
 const companiesDiv = document.getElementById("companies");
 
