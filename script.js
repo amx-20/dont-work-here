@@ -3,12 +3,20 @@ const API_URL = "https://script.googleusercontent.com/macros/echo?user_content_k
 const companiesDiv = document.getElementById("companies");
 
 fetch(API_URL)
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
+    .then(response => response.json())
+    .then(data => {
 
-    companiesDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-  })
-  .catch(error => {
-    console.error(error);
-  });
+        data.forEach(review => {
+
+            companiesDiv.innerHTML += `
+                <div class="company-card">
+                    <h2>${review.company_name}</h2>
+                    <p>⭐ ${review.overall_rating}</p>
+                    <p>${review.branch}</p>
+                </div>
+            `;
+
+        });
+
+    })
+    .catch(error => console.error(error));
