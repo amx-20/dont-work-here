@@ -17,7 +17,7 @@ jobs:
 
       - name: Fetch latest data from Google Apps Script
         run: |
-          curl -s "https://script.google.com/macros/s/AKfycbwP-jab4KFiOaZpb0dXL2Mcn02wkSAy5dYwurKK_oakaP_vvbrHdWqPtXq7RKPj1NSv/exec" -o data.json
+          curl -s "https://script.google.com/macros/s/AKfycbyPmIQcDGRObjEiNxXzsbQUQb6m3gVb9VW67i0rtLDz3ql8qY1kDtrJn7KmXEyLY6uP/exec" -o data.json
 
       - name: Commit and push if changed
         run: |
