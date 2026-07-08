@@ -1,48 +1,126 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+<!--
+  lang="ar" and dir="rtl" are the DEFAULT values shown for a split second
+  before js/i18n.js runs and corrects them based on the visitor's saved
+  language choice. They don't need manual editing.
+-->
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Call Center Reviews Egypt</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Markazi+Text:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Call Center Reviews Egypt</title>
+
+  <!--
+    FONT LOADING
+    Pulls in the 5 font families the site uses:
+    - Fraunces: serif font for English headings
+    - IBM Plex Sans: body text in English mode
+    - IBM Plex Sans Arabic: body text in Arabic mode
+    - IBM Plex Mono: numbers/stats (ratings, review counts)
+    - Markazi Text: serif-style font for Arabic headings
+    To change fonts, edit this link AND the matching names in css/style.css.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Markazi+Text:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- All visual styling (colors, spacing, layout) lives in this file -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="wrap">
+  <!-- =====================================================
+       HEADER
+       Appears identically at the top of every page: logo,
+       tagline, and the two toggle buttons (language + theme).
+       ===================================================== -->
   <header>
     <div class="header-row">
       <div>
+        <!-- Site name/logo. Clicking it goes back to the homepage. -->
         <div class="logo"><a href="index.html">Call Center Reviews <span>Egypt</span></a></div>
+
+        <!--
+          Small subtitle under the logo.
+          data-i18n="tagline" means: "fill this text in automatically
+          from the translations dictionary in js/i18n.js, under the
+          key called tagline." You never type Arabic/English text
+          directly here — you edit it in js/i18n.js instead, and it
+          updates on every page at once.
+        -->
         <div class="tagline" data-i18n="tagline"></div>
       </div>
+
+      <!-- The two round toggle buttons, top-right (or top-left in Arabic) -->
       <div class="header-controls">
+        <!-- Switches site language between Arabic and English -->
         <button class="pill-btn" id="lang-toggle" aria-label="Switch language">EN</button>
+        <!-- Switches site theme between dark and light -->
         <button class="pill-btn" id="theme-toggle" aria-label="Switch theme">☀</button>
       </div>
     </div>
   </header>
 
+  <!-- =====================================================
+       BACK LINK
+       Small "← Back to all companies" link, only on this page
+       (the homepage doesn't need it). Text comes from the
+       "backLink" key in js/i18n.js.
+       ===================================================== -->
   <a class="back-link" href="index.html" data-i18n="backLink"></a>
 
+  <!-- =====================================================
+       COMPANY HEADER
+       Shows the company name and 3 key stats (rating, review
+       count, recommend %). The actual numbers are filled in
+       by js/company.js AFTER it downloads data.json — that's
+       why you see placeholder dashes (—) here in the raw HTML.
+       ===================================================== -->
   <div class="company-header">
+    <!-- id="cp-name" is filled in by JavaScript with the real company name -->
     <h1 id="cp-name">—</h1>
+
+    <!-- Static subtitle text, e.g. "Reviews from current and former employees" -->
     <div class="sub" data-i18n="companySubtitle"></div>
+
     <div class="company-stat-row">
-      <div class="company-stat"><div class="big" id="cp-rating">—</div><div class="lbl" data-i18n="avgRating"></div></div>
-      <div class="company-stat"><div class="big" id="cp-count">—</div><div class="lbl" data-i18n="reviewsCount"></div></div>
-      <div class="company-stat"><div class="big" id="cp-recommend">—</div><div class="lbl" data-i18n="wouldRecommend"></div></div>
+      <!-- Average rating out of 10, e.g. "7.4" -->
+      <div class="company-stat">
+        <div class="big" id="cp-rating">—</div>
+        <div class="lbl" data-i18n="avgRating"></div>
+      </div>
+      <!-- Total number of reviews for this company -->
+      <div class="company-stat">
+        <div class="big" id="cp-count">—</div>
+        <div class="lbl" data-i18n="reviewsCount"></div>
+      </div>
+      <!-- % of reviews rated 6/10 or higher -->
+      <div class="company-stat">
+        <div class="big" id="cp-recommend">—</div>
+        <div class="lbl" data-i18n="wouldRecommend"></div>
+      </div>
     </div>
   </div>
 
+  <!-- =====================================================
+       REVIEW LIST
+       Empty container — js/company.js fills this with one
+       review "card" per employee review, after data.json loads.
+       The "loading..." message shows briefly until that happens.
+       ===================================================== -->
   <div class="review-list" id="review-list">
     <p class="empty-state" data-i18n="loading"></p>
   </div>
 
+  <!-- Small disclaimer text at the very bottom of the page -->
   <footer data-i18n="footer"></footer>
 </div>
 
+<!--
+  SCRIPTS (loaded in this order, order matters):
+  1. i18n.js    — must load first, sets up translations + toggle buttons
+  2. company.js — fetches data.json and builds the review cards
+-->
 <script src="js/i18n.js"></script>
 <script src="js/company.js"></script>
 </body>
