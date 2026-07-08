@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbwP-jab4KFiOaZpb0dXL2Mcn02wkSAy5dYwurKK_oakaP_vvbrHdWqPtXq7RKPj1NSv/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyPmIQcDGRObjEiNxXzsbQUQb6m3gVb9VW67i0rtLDz3ql8qY1kDtrJn7KmXEyLY6uP/exec";
 
 const companiesDiv = document.getElementById("companies");
 
@@ -38,7 +38,7 @@ data.forEach(review => {
                     <div class="company-card"
                         onclick="window.location.href='company.html?company=${encodeURIComponent(company.name)}'">
                         <h2>${company.name}</h2>
-                        <p>⭐ ${averageRating}</p>
+                        <p>⭐ ${averageRating}/10</p>
                         <p>${company.reviews.length} Review(s)</p>
 
                         <button>
