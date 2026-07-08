@@ -1,15 +1,24 @@
-/* ===== Theme tokens ===== */
+/* =====================================================
+   THEME TOKENS
+   These are the "color palette" variables used everywhere
+   else in this file. Change a color ONCE here, and it
+   updates across the entire site automatically.
+
+   The dark block is the DEFAULT theme (what visitors see
+   first). The light block only applies when the theme
+   button switches data-theme to "light" on the <html> tag.
+   ===================================================== */
 :root,
 [data-theme="dark"] {
-  --ink: #12151A;
-  --slate: #1C212B;
-  --slate-2: #232935;
-  --bone: #EDEAE1;
-  --muted: #8B909B;
-  --signal: #F2A93B;
-  --trust: #4FD1C5;
-  --danger: #D9695F;
-  --line: #2C3340;
+  --ink: #12151A;       /* main page background */
+  --slate: #1C212B;     /* card/box background */
+  --slate-2: #232935;   /* slightly lighter box background (currently unused, reserved) */
+  --bone: #EDEAE1;      /* main text color */
+  --muted: #8B909B;     /* secondary/grey text (labels, captions) */
+  --signal: #F2A93B;    /* accent color: ratings, highlights, hover states */
+  --trust: #4FD1C5;     /* accent color: stats, positive elements */
+  --danger: #D9695F;    /* accent color: low ratings, "cons" heading */
+  --line: #2C3340;      /* borders and dividers */
 }
 [data-theme="light"] {
   --ink: #F7F5EF;
@@ -23,18 +32,29 @@
   --line: #E1DDD2;
 }
 
+/* Resets browser default spacing so every element starts from a clean, predictable baseline */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* =====================================================
+   BASE PAGE STYLING
+   Applies to the whole page by default (English/LTR mode).
+   ===================================================== */
 body {
   background: var(--ink);
   color: var(--bone);
   font-family: 'IBM Plex Sans', sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease; /* smooth fade when switching themes */
 }
 
-/* Arabic gets its own font pairing — Latin fonts don't render Arabic script */
+/* =====================================================
+   ARABIC / RTL OVERRIDES
+   js/i18n.js adds the class "rtl" to <body> when Arabic
+   is active. These rules only apply in that case, swapping
+   in Arabic-friendly fonts since the English fonts (Fraunces,
+   IBM Plex Sans) don't contain Arabic letters.
+   ===================================================== */
 body.rtl {
   font-family: 'IBM Plex Sans Arabic', sans-serif;
 }
@@ -42,21 +62,30 @@ body.rtl .logo,
 body.rtl .hero h1,
 body.rtl .section-head h2,
 body.rtl .company-header h1 {
-  font-family: 'Markazi Text', serif;
+  font-family: 'Markazi Text', serif; /* Arabic-compatible "serif-style" heading font */
 }
 
+/* Centers all page content and caps its width so it doesn't stretch too wide on big screens */
 .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
+/* Makes links inherit the surrounding text color instead of default browser blue */
 a { color: inherit; }
 
-/* ===== HEADER ===== */
+/* =====================================================
+   HEADER
+   The bar at the top of every page: logo, tagline, and
+   the two toggle buttons.
+   ===================================================== */
 header { border-bottom: 1px solid var(--line); padding: 28px 0 24px; }
 .header-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
 .logo { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.5rem; letter-spacing: -0.01em; }
-.logo span { color: var(--signal); }
+.logo span { color: var(--signal); } /* colors just the "Egypt" part of the logo */
 .tagline { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
 
+/* Container holding the language + theme buttons, side by side */
 .header-controls { display: flex; gap: 8px; }
+
+/* The round pill-shaped buttons themselves (used for both toggle buttons) */
 .pill-btn {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.75rem;
@@ -66,70 +95,95 @@ header { border-bottom: 1px solid var(--line); padding: 28px 0 24px; }
   border-radius: 20px;
   padding: 6px 14px;
   cursor: pointer;
-  min-width: 44px;
+  min-width: 44px; /* keeps buttons easy to tap on mobile */
 }
 .pill-btn:hover { border-color: var(--signal); color: var(--signal); }
+/* Visible outline when navigating by keyboard (Tab key), for accessibility */
 .pill-btn:focus-visible { outline: 2px solid var(--trust); outline-offset: 2px; }
 
-/* ===== HERO ===== */
+/* =====================================================
+   HERO SECTION
+   The big intro headline + subtext + stat numbers at the
+   top of the homepage only.
+   ===================================================== */
 .hero { padding: 56px 0 40px; border-bottom: 1px solid var(--line); }
 .hero h1 {
   font-family: 'Fraunces', serif;
   font-weight: 600;
-  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  font-size: clamp(1.9rem, 4vw, 2.6rem); /* auto-shrinks on small screens, grows on large ones */
   max-width: 640px;
   letter-spacing: -0.01em;
 }
-.hero h1 em { color: var(--signal); font-style: normal; }
+.hero h1 em { color: var(--signal); font-style: normal; } /* the highlighted part of the headline */
 .hero p { color: var(--muted); margin-top: 14px; max-width: 520px; font-size: 0.98rem; }
 .hero-stats { display: flex; gap: 36px; margin-top: 32px; flex-wrap: wrap; }
 .stat-num { font-family: 'IBM Plex Mono', monospace; font-size: 1.6rem; color: var(--trust); }
 .stat-label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
 
-/* ===== SECTION LABEL ===== */
+/* =====================================================
+   SECTION LABEL
+   Small heading + caption above the company card grid.
+   ===================================================== */
 .section-head { display: flex; justify-content: space-between; align-items: baseline; padding: 40px 0 20px; flex-wrap: wrap; gap: 6px; }
 .section-head h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.3rem; }
 .section-head .count { color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
 
-/* ===== CARD GRID ===== */
+/* =====================================================
+   COMPANY CARD GRID (homepage)
+   The clickable grid of company cards.
+   ===================================================== */
+/* The grid itself: auto-fills as many columns as fit, each at least 260px wide */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; padding-bottom: 60px; }
+
+/* One individual company card */
 .card {
   background: var(--slate);
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 22px;
   cursor: pointer;
-  transition: transform 0.18s ease, border-color 0.18s ease;
+  transition: transform 0.18s ease, border-color 0.18s ease; /* smooth hover lift effect */
 }
 .card:hover, .card:focus-visible { transform: translateY(-3px); border-color: var(--signal); }
 .card:focus-visible { outline: 2px solid var(--trust); outline-offset: 2px; }
+
+/* Top row of a card: company name on one side, rating badge on the other */
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
 .company-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.15rem; }
+
+/* The small colored number badge showing average rating (e.g. "7.4") */
 .rating-badge {
   font-family: 'IBM Plex Mono', monospace;
   font-weight: 500;
   font-size: 0.9rem;
   color: var(--ink);
-  background: var(--signal);
+  background: var(--signal);  /* default color = good rating */
   border-radius: 6px;
   padding: 2px 8px;
   min-width: 34px;
   text-align: center;
   flex-shrink: 0;
 }
-.rating-badge.mid { background: var(--muted); }
-.rating-badge.low { background: var(--danger); }
+.rating-badge.mid { background: var(--muted); }   /* added by JS when rating is medium */
+.rating-badge.low { background: var(--danger); }  /* added by JS when rating is low */
 
+/* The small bar-chart ("waveform") showing the spread of ratings 1–10 */
 .waveform { display: flex; align-items: flex-end; gap: 3px; height: 34px; margin: 16px 0 14px; }
 .waveform i { flex: 1; background: var(--line); border-radius: 2px; display: block; }
-.waveform i.filled { background: var(--trust); }
+.waveform i.filled { background: var(--trust); } /* bars with at least 1 review get colored in */
 
+/* Bottom row of a card: review count on one side, recommend % on the other */
 .card-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.8rem; }
 .recommend { font-family: 'IBM Plex Mono', monospace; color: var(--signal); }
 
+/* Shown when there's no data to display yet (loading, or zero results) */
 .empty-state { color: var(--muted); padding: 40px 0; text-align: center; }
 
-/* ===== COMPANY PAGE ===== */
+/* =====================================================
+   COMPANY PAGE
+   Styling specific to company.html — the back link, the
+   company header stats, and the review cards themselves.
+   ===================================================== */
 .back-link {
   display: inline-flex; align-items: center; gap: 6px;
   color: var(--muted); font-size: 0.85rem; text-decoration: none;
@@ -140,36 +194,52 @@ header { border-bottom: 1px solid var(--line); padding: 28px 0 24px; }
 .company-header { padding: 20px 0 32px; border-bottom: 1px solid var(--line); }
 .company-header h1 { font-family: 'Fraunces', serif; font-weight: 700; font-size: 2rem; }
 .company-header .sub { color: var(--muted); margin-top: 6px; font-size: 0.9rem; }
+
+/* Row holding the 3 big stat numbers: avg rating, review count, recommend % */
 .company-stat-row { display: flex; gap: 40px; margin-top: 24px; flex-wrap: wrap; }
 .company-stat .big { font-family: 'IBM Plex Mono', monospace; font-size: 2rem; color: var(--trust); }
 .company-stat .lbl { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
 
+/* Container holding all the individual review cards, stacked vertically */
 .review-list { padding: 32px 0 60px; display: flex; flex-direction: column; gap: 16px; }
+
+/* One individual review card */
 .review { background: var(--slate); border: 1px solid var(--line); border-radius: 10px; padding: 22px; }
+
+/* Top row of a review card: job title/tags on one side, star rating + duration on the other */
 .review-top {
   display: flex; justify-content: space-between; align-items: center;
   flex-wrap: wrap; gap: 8px;
   padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 14px;
 }
-.review-role { font-weight: 600; font-size: 0.95rem; }
-.review-tags { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }
+.review-role { font-weight: 600; font-size: 0.95rem; }        /* job title */
+.review-tags { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }  /* account · branch */
 .stars { color: var(--signal); font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; }
-.review-dates { color: var(--muted); font-size: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
+.review-dates { color: var(--muted); font-size: 0.75rem; font-family: 'IBM Plex Mono', monospace; } /* duration text */
 
+/* Two-column layout for Pros/Cons side by side */
 .pc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .pc-block h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-.pc-block.pros h4 { color: var(--trust); }
-.pc-block.cons h4 { color: var(--danger); }
-.pc-block p { font-size: 0.88rem; color: var(--bone); white-space: pre-wrap; }
+.pc-block.pros h4 { color: var(--trust); }   /* "Pros" heading color */
+.pc-block.cons h4 { color: var(--danger); }  /* "Cons" heading color */
+.pc-block p { font-size: 0.88rem; color: var(--bone); white-space: pre-wrap; } /* keeps line breaks the user typed */
 
+/* =====================================================
+   MOBILE ADJUSTMENTS
+   Applies only on small screens (phones), 560px wide or less.
+   ===================================================== */
 @media (max-width: 560px) {
-  .pc-row { grid-template-columns: 1fr; }
-  .hero-stats { gap: 22px; }
+  .pc-row { grid-template-columns: 1fr; }   /* stack Pros/Cons instead of side by side */
+  .hero-stats { gap: 22px; }                /* tighten spacing between stat numbers */
 }
 
+/* =====================================================
+   FOOTER
+   Small disclaimer text at the bottom of every page.
+   ===================================================== */
 footer { border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--muted); font-size: 0.78rem; text-align: center; }
 
-/* Respect users who've asked for less motion */
+/* Turns off animations for visitors who've set "reduce motion" in their device settings (accessibility) */
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
