@@ -1,50 +1,118 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+<!--
+  lang="ar" and dir="rtl" are the DEFAULT values shown for a split second
+  before js/i18n.js runs and corrects them based on the visitor's saved
+  language choice. They don't need manual editing.
+-->
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Call Center Reviews Egypt</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Markazi+Text:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Call Center Reviews Egypt</title>
+
+  <!--
+    FONT LOADING
+    Pulls in the 5 font families the site uses:
+    - Fraunces: serif font for English headings
+    - IBM Plex Sans: body text in English mode
+    - IBM Plex Sans Arabic: body text in Arabic mode
+    - IBM Plex Mono: numbers/stats (ratings, review counts)
+    - Markazi Text: serif-style font for Arabic headings
+    To change fonts, edit this link AND the matching names in css/style.css.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Markazi+Text:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- All visual styling (colors, spacing, layout) lives in this file -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="wrap">
+  <!-- =====================================================
+       HEADER
+       Appears identically at the top of every page: logo,
+       tagline, and the two toggle buttons (language + theme).
+       Same block as on company.html, kept visually consistent
+       across the whole site.
+       ===================================================== -->
   <header>
     <div class="header-row">
       <div>
+        <!-- Site name/logo. On the homepage this is just text (not a link) since we're already here. -->
         <div class="logo">Call Center Reviews <span>Egypt</span></div>
+
+        <!--
+          Small subtitle under the logo.
+          data-i18n="tagline" pulls this text automatically from the
+          translations dictionary in js/i18n.js — edit the wording there,
+          not here, so it updates on every page at once.
+        -->
         <div class="tagline" data-i18n="tagline"></div>
       </div>
+
+      <!-- The two round toggle buttons, top-right (or top-left in Arabic) -->
       <div class="header-controls">
+        <!-- Switches site language between Arabic and English -->
         <button class="pill-btn" id="lang-toggle" aria-label="Switch language">EN</button>
+        <!-- Switches site theme between dark and light -->
         <button class="pill-btn" id="theme-toggle" aria-label="Switch theme">☀</button>
       </div>
     </div>
   </header>
 
+  <!-- =====================================================
+       HERO SECTION
+       The big introductory headline + subtext + the two
+       "stat" numbers (total companies, total reviews) shown
+       near the top of the homepage. Only appears here, not
+       on the company page.
+       ===================================================== -->
   <section class="hero">
+    <!-- Main headline, split into two colored parts: normal text + highlighted <em> text -->
     <h1><span data-i18n="heroTitle"></span> <em data-i18n="heroTitleEm"></em></h1>
+
+    <!-- Supporting paragraph under the headline -->
     <p data-i18n="heroSub"></p>
+
     <div class="hero-stats">
+      <!-- Total number of companies listed — filled in by js/script.js after data.json loads -->
       <div><div class="stat-num" id="stat-companies">—</div><div class="stat-label" data-i18n="statCompanies"></div></div>
+      <!-- Total number of reviews across all companies — also filled in by js/script.js -->
       <div><div class="stat-num" id="stat-reviews">—</div><div class="stat-label" data-i18n="statReviews"></div></div>
     </div>
   </section>
 
+  <!-- =====================================================
+       SECTION LABEL
+       Small heading that introduces the company list below it,
+       plus a note on the right about how it's sorted.
+       ===================================================== -->
   <div class="section-head">
     <h2 data-i18n="browseCompanies"></h2>
     <div class="count" data-i18n="sortedBy"></div>
   </div>
 
+  <!-- =====================================================
+       COMPANY CARD GRID
+       Empty container — js/script.js fills this with one
+       clickable "card" per company, after data.json loads
+       and gets grouped/averaged. The "loading..." message
+       shows briefly until that happens.
+       ===================================================== -->
   <div class="grid" id="card-grid">
     <p class="empty-state" data-i18n="loading"></p>
   </div>
 
+  <!-- Small disclaimer text at the very bottom of the page -->
   <footer data-i18n="footer"></footer>
 </div>
 
+<!--
+  SCRIPTS (loaded in this order, order matters):
+  1. i18n.js  — must load first, sets up translations + toggle buttons
+  2. script.js — fetches data.json, groups reviews by company, builds the cards
+-->
 <script src="js/i18n.js"></script>
 <script src="js/script.js"></script>
 </body>
