@@ -1,28 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Call Center Reviews Egypt</title>
-
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Call Center Reviews Egypt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Markazi+Text:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-    <header>
-        <h1>Call Center Reviews Egypt</h1>
-        <p>Real employee experiences from Egyptian call centers.</p>
-    </header>
+<div class="wrap">
+  <header>
+    <div class="header-row">
+      <div>
+        <div class="logo">Call Center Reviews <span>Egypt</span></div>
+        <div class="tagline" data-i18n="tagline"></div>
+      </div>
+      <div class="header-controls">
+        <button class="pill-btn" id="lang-toggle" aria-label="Switch language">EN</button>
+        <button class="pill-btn" id="theme-toggle" aria-label="Switch theme">☀</button>
+      </div>
+    </div>
+  </header>
 
-    <main>
-        <div id="companies"></div>
-    </main>
+  <section class="hero">
+    <h1><span data-i18n="heroTitle"></span> <em data-i18n="heroTitleEm"></em></h1>
+    <p data-i18n="heroSub"></p>
+    <div class="hero-stats">
+      <div><div class="stat-num" id="stat-companies">—</div><div class="stat-label" data-i18n="statCompanies"></div></div>
+      <div><div class="stat-num" id="stat-reviews">—</div><div class="stat-label" data-i18n="statReviews"></div></div>
+    </div>
+  </section>
 
-    <script src="js/script.js"></script>
+  <div class="section-head">
+    <h2 data-i18n="browseCompanies"></h2>
+    <div class="count" data-i18n="sortedBy"></div>
+  </div>
 
+  <div class="grid" id="card-grid">
+    <p class="empty-state" data-i18n="loading"></p>
+  </div>
+
+  <footer data-i18n="footer"></footer>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/script.js"></script>
 </body>
-
 </html>
