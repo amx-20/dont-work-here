@@ -16,7 +16,7 @@ const translations = {
     dir: "rtl",
     tagline: "تجارب حقيقية من موظفين، قبل ما تقدّم.",                    // small text under the logo
     heroTitle: "هل تستاهل الشركة إنك تشتغل فيها؟",                       // main headline, first half
-    heroTitleEm: "اسأل اللي شغلوا فيها قبلك.",                          // main headline, highlighted half
+    heroTitleEm: "اسأل اللي إشتغلوا فيها قبلك.",                          // main headline, highlighted half
     heroSub: "تقييمات مجهولة من موظفين حاليين وسابقين في شركات الكول سنتر بمصر — المرتب، جو الشغل، الشيفتات، وكل حاجة الإعلان الوظيفي مش هيقولهالك.",  // paragraph under headline
     statCompanies: "شركة",                                              // label under the "companies" count
     statReviews: "تقييم",                                               // label under the "reviews" count
