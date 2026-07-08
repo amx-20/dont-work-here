@@ -1,34 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Reviews</title>
-
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Call Center Reviews Egypt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Markazi+Text:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-    <main>
+<div class="wrap">
+  <header>
+    <div class="header-row">
+      <div>
+        <div class="logo"><a href="index.html">Call Center Reviews <span>Egypt</span></a></div>
+        <div class="tagline" data-i18n="tagline"></div>
+      </div>
+      <div class="header-controls">
+        <button class="pill-btn" id="lang-toggle" aria-label="Switch language">EN</button>
+        <button class="pill-btn" id="theme-toggle" aria-label="Switch theme">☀</button>
+      </div>
+    </div>
+  </header>
 
-        <a href="index.html">← Back</a>
+  <a class="back-link" href="index.html" data-i18n="backLink"></a>
 
-        <h1 id="company-name"></h1>
+  <div class="company-header">
+    <h1 id="cp-name">—</h1>
+    <div class="sub" data-i18n="companySubtitle"></div>
+    <div class="company-stat-row">
+      <div class="company-stat"><div class="big" id="cp-rating">—</div><div class="lbl" data-i18n="avgRating"></div></div>
+      <div class="company-stat"><div class="big" id="cp-count">—</div><div class="lbl" data-i18n="reviewsCount"></div></div>
+      <div class="company-stat"><div class="big" id="cp-recommend">—</div><div class="lbl" data-i18n="wouldRecommend"></div></div>
+    </div>
+  </div>
 
-        <h2 id="company-rating"></h2>
+  <div class="review-list" id="review-list">
+    <p class="empty-state" data-i18n="loading"></p>
+  </div>
 
-        <p id="review-count"></p>
+  <footer data-i18n="footer"></footer>
+</div>
 
-        <hr>
-
-        <div id="reviews"></div>
-
-    </main>
-
-    <script src="js/company.js"></script>
-
+<script src="js/i18n.js"></script>
+<script src="js/company.js"></script>
 </body>
-
 </html>
