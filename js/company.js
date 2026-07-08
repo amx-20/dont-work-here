@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbwP-jab4KFiOaZpb0dXL2Mcn02wkSAy5dYwurKK_oakaP_vvbrHdWqPtXq7RKPj1NSv/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyPmIQcDGRObjEiNxXzsbQUQb6m3gVb9VW67i0rtLDz3ql8qY1kDtrJn7KmXEyLY6uP/exec";
 
 // Get company name from URL
 const params = new URLSearchParams(window.location.search);
@@ -17,9 +17,9 @@ fetch(API_URL)
         // Get reviews for this company
         const reviews = data.filter(review => review.company_name === companyName);
 
-        // Sort newest first
+        // Sort newest first (by submission time, since we no longer collect employment dates)
         reviews.sort((a, b) =>
-            new Date(b.employment_end) - new Date(a.employment_end)
+            new Date(b.Timestamp) - new Date(a.Timestamp)
         );
 
         // Company title
@@ -28,30 +28,20 @@ fetch(API_URL)
         // Review count
         reviewCountElement.textContent = `${reviews.length} Employee Review${reviews.length !== 1 ? "s" : ""}`;
 
-        // Average rating
+        // Average rating (out of 10)
         const averageRating =
             (
                 reviews.reduce((sum, review) => sum + Number(review.overall_rating), 0)
                 / reviews.length
             ).toFixed(1);
 
-        companyRatingElement.textContent = `⭐ ${averageRating}`;
+        companyRatingElement.textContent = `⭐ ${averageRating}/10`;
 
         // Clear reviews
         reviewsDiv.innerHTML = "";
 
         // Display reviews
         reviews.forEach(review => {
-
-            const startDate = new Date(review.employment_start).toLocaleDateString("en-US", {
-                month: "short",
-                year: "numeric"
-            });
-
-            const endDate = new Date(review.employment_end).toLocaleDateString("en-US", {
-                month: "short",
-                year: "numeric"
-            });
 
             reviewsDiv.innerHTML += `
                 <div class="company-card">
@@ -64,11 +54,11 @@ fetch(API_URL)
                     |
                     ${review.branch}
                     |
-                    ⭐ ${review.overall_rating}
+                    ⭐ ${review.overall_rating}/10
 
                     <br><br>
 
-                    ${startDate} → ${endDate}
+                    مدة الشغل: ${review.duration_text}
 
                     <br><br>
 
