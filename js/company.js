@@ -10,7 +10,7 @@ const companyRatingElement = document.getElementById("company-rating");
 const reviewCountElement = document.getElementById("review-count");
 const reviewsDiv = document.getElementById("reviews");
 
-fetch(API_URL)
+fetch("data.json")
     .then(response => response.json())
     .then(data => {
 
