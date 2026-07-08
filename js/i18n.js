@@ -16,7 +16,7 @@ const translations = {
     dir: "rtl",
     tagline: "تجارب حقيقية من موظفين، قبل ما تقدّم.",                    // small text under the logo
     heroTitle: "هل تستاهل الشركة إنك تشتغل فيها؟",                       // main headline, first half
-    heroTitleEm: "اسأل اللي إشتغلوا فيها قبلك.",                          // main headline, highlighted half
+    heroTitleEm: "اسأل اللي اشتغلوا فيها قبلك.",                          // main headline, highlighted half
     heroSub: "تقييمات مجهولة من موظفين حاليين وسابقين في شركات الكول سنتر بمصر — المرتب، جو الشغل، الشيفتات، وكل حاجة الإعلان الوظيفي مش هيقولهالك.",  // paragraph under headline
     statCompanies: "شركة",                                              // label under the "companies" count
     statReviews: "تقييم",                                               // label under the "reviews" count
@@ -29,8 +29,8 @@ const translations = {
     avgRating: "متوسط التقييم",                                         // stat label: average rating
     reviewsCount: "عدد التقييمات",                                      // stat label: review count
     wouldRecommend: "بينصحوا بيها",                                     // stat label: recommend %
-    pros: "أحلى حاجة",                                                  // "Pros" heading on each review
-    cons: "أسوأ حاجة",                                                  // "Cons" heading on each review
+    pros: "مميزاتها",                                                  // "Pros" heading on each review
+    cons: "عيوبها",                                                  // "Cons" heading on each review
     duration: "مدة الشغل",                                              // duration label on each review
     footer: "المشروع بيعرض بيانات حقيقية من نموذج مجهول — مش تابع لأي شركة مذكورة هنا.",  // bottom disclaimer
     loading: "بنجيب البيانات...",                                       // shown briefly while data.json loads
