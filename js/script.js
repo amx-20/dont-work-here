@@ -77,21 +77,91 @@ function renderGrid() {
   }
 
   // ---- Build one clickable card per company ----
-  grid.innerHTML = companiesData.map(c => `
-    <div class="card" tabindex="0" role="button"
-         onclick="window.location.href='company.html?company=${encodeURIComponent(c.name)}'"
-         onkeydown="if(event.key==='Enter')window.location.href='company.html?company=${encodeURIComponent(c.name)}'">
-      <div class="card-top">
-        <div class="company-name">${c.name}</div>
-        <div class="rating-badge ${ratingClass(c.avg)}">${c.avg.toFixed(1)}</div>
-      </div>
-      <div class="waveform">${waveformBars(c.reviews)}</div>
-      <div class="card-meta">
-        <span>${c.reviews.length} ${t.reviewsWord}</span>
-        <span class="recommend">${c.recPct}% ${t.recommendPct}</span>
-      </div>
+grid.innerHTML = companiesData.map(c => `
+<div class="card"
+     tabindex="0"
+     role="button"
+     onclick="window.location.href='company.html?company=${encodeURIComponent(c.name)}'"
+     onkeydown="if(event.key==='Enter')window.location.href='company.html?company=${encodeURIComponent(c.name)}'">
+
+    <div class="card-content">
+
+        <div class="card-left">
+
+            <div class="company-logo">
+
+                <img
+                    src="assets/logos/${c.name.toLowerCase().replace(/\s+/g,'-')}.png"
+                    onerror="this.src='assets/logos/default.png'"
+                    alt="${c.name}">
+
+            </div>
+
+            <div class="company-info">
+
+                <h3 class="company-name">
+                    ${c.name}
+                </h3>
+
+                <div class="company-rating">
+
+                    <span class="stars">
+                        ${"★".repeat(Math.round(c.avg))}
+                    </span>
+
+                    <span class="rating-number">
+                        ${c.avg.toFixed(1)} / 10
+                    </span>
+
+                </div>
+
+                <div class="company-meta">
+
+                    <div>
+                        ${new Set(c.reviews.map(r => r.branch)).size}
+                        ${t.branchesWord ?? "Branches"}
+                    </div>
+
+                    <div>
+                        ${c.reviews.length}
+                        ${t.reviewsWord}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-right">
+
+            <div class="waveform">
+
+                ${waveformBars(c.reviews)}
+
+            </div>
+
+            <div class="wave-scale">
+
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+                <span>6</span>
+                <span>7</span>
+                <span>8</span>
+                <span>9</span>
+                <span>10</span>
+
+            </div>
+
+        </div>
+
     </div>
-  `).join("");
+
+</div>
+`).join("");
 
   // ---- Fill in the two big stat numbers in the hero section ----
   document.getElementById("stat-companies").textContent = companiesData.length;
