@@ -45,6 +45,9 @@ function starsHtml(avg) {
 }
 
 // Builds the 10 rating-distribution bars for one company
+// Builds 10 bar+number pairs. Bar height is still based on how many
+// reviews gave that rating, relative to whichever rating got the most
+// (unchanged logic — just now paired directly with its own number).
 function waveformBars(reviews) {
   const counts = new Array(10).fill(0);
   reviews.forEach(r => {
@@ -52,21 +55,15 @@ function waveformBars(reviews) {
     counts[idx]++;
   });
   const max = Math.max(...counts, 1);
-  return counts.map(c => {
+  return counts.map((c, i) => {
     const filled = c > 0 ? "filled" : "";
-    const h = 8 + Math.round((c / max) * 36);
-    return `<i class="${filled}" style="height:${h}px"></i>`;
+    const h = 6 + Math.round((c / max) * 30);
+    return `<div class="dist-col">
+      <div class="dist-bar-wrap"><div class="dist-bar ${filled}" style="height:${h}px"></div></div>
+      <span class="dist-num">${i + 1}</span>
+    </div>`;
   }).join("");
 }
-
-function renderGrid() {
-  const t = translations[getLang()];
-  const grid = document.getElementById("card-grid");
-
-  if (companiesData.length === 0) {
-    grid.innerHTML = `<p class="empty-state">${t.noReviews}</p>`;
-    return;
-  }
 
   grid.innerHTML = companiesData.map(c => {
     const slug = slugify(c.name);
