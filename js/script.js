@@ -64,6 +64,14 @@ function waveformBars(reviews) {
     </div>`;
   }).join("");
 }
+function renderGrid() {
+  const t = translations[getLang()];
+  const grid = document.getElementById("card-grid");
+
+  if (companiesData.length === 0) {
+    grid.innerHTML = `<p class="empty-state">${t.noReviews}</p>`;
+    return;
+  }
 
   grid.innerHTML = companiesData.map(c => {
     const slug = slugify(c.name);
@@ -95,11 +103,10 @@ function waveformBars(reviews) {
           </div>
         </div>
       </div>
-
-      <div class="card-distribution">
-        <p class="dist-label">${t.ratingDistribution}</p>
-        <div class="dist-bars">${waveformBars(c.reviews)}</div>
-      </div>
+     <div class="card-distribution">
+            <p class="dist-label">${t.ratingDistribution}</p>
+            <div class="dist-bars">${waveformBars(c.reviews)}</div>
+          </div>
 
     </div>
   `;
