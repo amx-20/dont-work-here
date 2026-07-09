@@ -31,7 +31,9 @@ const translations = {
     wouldRecommend: "بينصحوا بيها",                                     // stat label: recommend %
     pros: "مميزاتها",                                                  // "Pros" heading on each review
     cons: "عيوبها",                                                  // "Cons" heading on each review
-    duration: "مدة الشغل",                                              // duration label on each review
+    duration: "مدة الشغل", 
+    ratingDistribution: "توزيع التقييمات",                              // small label above the bar chart on each card
+    branchWord: "فرع",                                                  // used next to branch count, e.g. "٣ فرع"// duration label on each review
     footer: "المشروع بيعرض بيانات حقيقية من نموذج مجهول — مش تابع لأي شركة مذكورة هنا.",  // bottom disclaimer
     loading: "بنجيب البيانات...",                                       // shown briefly while data.json loads
     noReviews: "لسه مفيش تقييمات للشركة دي."                            // shown if a company has 0 reviews
@@ -56,6 +58,8 @@ const translations = {
     pros: "Pros",
     cons: "Cons",
     duration: "Time at company",
+    ratingDistribution: "Rating Distribution",
+    branchWord: "branches",
     footer: "This project displays real data from an anonymous form — not affiliated with any company listed here.",
     loading: "Loading reviews...",
     noReviews: "No reviews for this company yet."
