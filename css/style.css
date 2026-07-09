@@ -197,13 +197,14 @@ body.rtl .company-name { font-family: 'Markazi Text', serif; font-size: 1.3rem; 
    Appears on the LEFT in Arabic, RIGHT in English — automatic, from dir. */
 .card-distribution { width: 200px; flex-shrink: 0; }
 .dist-label { font-size: 0.72rem; color: var(--muted); margin-bottom: 8px; }
-.dist-bars { display: flex; gap: 3px; align-items: flex-end; height: 44px; }
-.dist-bars i {
-  flex: 1;
-  background: var(--line);
-  border-radius: 3px 3px 0 0;
-  display: block;
-}
+/* Each bar + its number now live together as one column, so they can
+   never drift apart no matter the screen size. */
+.dist-bars { display: flex; gap: 4px; }
+.dist-col { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.dist-bar-wrap { height: 36px; width: 100%; display: flex; align-items: flex-end; justify-content: center; }
+.dist-bar { width: 55%; background: var(--line); border-radius: 3px 3px 0 0; }
+.dist-bar.filled { background: var(--signal); }
+.dist-num { font-size: 0.62rem; color: var(--muted); margin-top: 4px; }
 .dist-bars i.filled { background: var(--signal); }
 .dist-scale { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--muted); margin-top: 4px; }
 
