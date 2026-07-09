@@ -208,6 +208,7 @@ body.rtl .company-name { font-family: 'Markazi Text', serif; font-size: 1.3rem; 
 .dist-scale { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--muted); margin-top: 4px; }
 
 @media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
   .card { flex-direction: column; align-items: stretch; }
   .card-distribution { width: 100%; }
 }
