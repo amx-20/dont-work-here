@@ -88,7 +88,7 @@ function renderCompany() {
     </div>
   `;
   }).join("");
-  updateSeeMoreButtons();// joins all the review cards into one big block of HTML
+  //updateSeeMoreButtons();// joins all the review cards into one big block of HTML
 }
 
 // =====================================================
