@@ -9,7 +9,30 @@ const companyName = params.get("company");
 
 // Holds the list of reviews for THIS company only, once data.json
 // has been downloaded and filtered. Starts empty.
+// Holds the list of reviews for THIS company only, once data.json
+// has been downloaded and filtered. Starts empty.
 let companyReviews = [];
+
+// Runs when a "See more" button is clicked. Expands the text and
+// flips the button's own label between "See more" and "See less".
+function toggleClamp(button) {
+  const t = translations[getLang()];
+  const target = document.getElementById(button.dataset.target);
+  const isExpanded = target.classList.toggle("expanded");
+  button.textContent = isExpanded ? t.seeLess : t.seeMore;
+}
+
+// After the reviews are drawn, checks each pros/cons text block —
+// if it's actually longer than 3 lines, shows its "See more" button.
+// Short reviews are left alone with no button at all.
+function updateSeeMoreButtons() {
+  document.querySelectorAll(".clamp-text").forEach(el => {
+    const btn = document.querySelector(`.see-more-btn[data-target="${el.id}"]`);
+    if (btn && el.scrollHeight > el.clientHeight + 2) {
+      btn.classList.add("visible");
+    }
+  });
+}
 
 // =====================================================
 // MAIN RENDER FUNCTION
@@ -87,8 +110,8 @@ function renderCompany() {
       </div>
     </div>
   `;
-  }).join("");
-  //updateSeeMoreButtons();// joins all the review cards into one big block of HTML
+}).join("");
+  updateSeeMoreButtons(); // checks each review's text and shows "See more" only where needed
 }
 
 // =====================================================
