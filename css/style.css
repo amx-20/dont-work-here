@@ -255,8 +255,33 @@ body.rtl .company-name { font-family: 'Markazi Text', serif; font-size: 1.3rem; 
 .pc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .pc-block h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
 .pc-block.pros h4 { color: var(--trust); }   /* "Pros" heading color */
-.pc-block.cons h4 { color: var(--danger); }  /* "Cons" heading color */
-.pc-block p { font-size: 0.88rem; color: var(--bone); white-space: pre-wrap; } /* keeps line breaks the user typed */
+.pc-block.cons h4 { color: var(--danger); }  /* "Cons" heading color */.pc-block p { font-size: 0.88rem; color: var(--bone); white-space: pre-wrap; }
+
+/* Long pros/cons text gets clipped to 3 lines by default... */
+.pc-block p.clamp-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* ...and expands fully once the "see more" button is clicked */
+.pc-block p.clamp-text.expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+}
+/* The toggle button itself — hidden by default, only shown by JS
+   if a review's text is actually long enough to need clipping */
+.see-more-btn {
+  background: none;
+  border: none;
+  color: var(--trust);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 6px 0 0;
+  display: none;
+  font-family: inherit;
+}
+.see-more-btn.visible { display: inline-block; }
 
 /* =====================================================
    MOBILE ADJUSTMENTS
