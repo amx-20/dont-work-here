@@ -188,9 +188,12 @@ body.rtl .company-name { font-family: 'Markazi Text', serif; font-size: 1.3rem; 
 .card-stars.mid { color: var(--muted); }
 .card-stars.low { color: var(--danger); }
 
-/* Small row: branch count + review count, with tiny icons */
-.card-meta { display: flex; gap: 14px; color: var(--muted); font-size: 0.78rem; }
-.card-meta span { display: inline-flex; align-items: center; gap: 4px; }
+/* flex-wrap lets the whole "📍 3 branches" and "💬 127 reviews" groups
+   drop to a new line if needed, instead of breaking apart internally */
+.card-meta { display: flex; gap: 14px; color: var(--muted); font-size: 0.78rem; flex-wrap: wrap; }
+/* white-space: nowrap keeps each icon glued to its own number/text,
+   so they can never split apart mid-group even with 3-digit numbers */
+.card-meta span { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
 .card-meta svg { width: 13px; height: 13px; flex-shrink: 0; }
 
 /* Second group in the HTML source: rating distribution chart.
