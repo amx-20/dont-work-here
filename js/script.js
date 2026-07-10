@@ -111,7 +111,6 @@ function renderGrid() {
     </div>
   `;
 }).join("");
-  updateSeeMoreButtons();
   document.getElementById("stat-companies").textContent = companiesData.length;
   document.getElementById("stat-reviews").textContent = companiesData.reduce((s, c) => s + c.reviews.length, 0);
 }
