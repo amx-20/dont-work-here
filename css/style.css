@@ -253,10 +253,19 @@ body.rtl .company-name { font-family: 'Markazi Text', serif; font-size: 1.3rem; 
 
 /* Two-column layout for Pros/Cons side by side */
 .pc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+/* min-width: 0 overrides the browser's default behavior of refusing to
+   shrink a grid column smaller than its longest piece of content —
+   without this, long unbroken text pushes the card wider than it should be. */
+.pc-block { min-width: 0; }
 .pc-block h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-.pc-block.pros h4 { color: var(--trust); }   /* "Pros" heading color */
-.pc-block.cons h4 { color: var(--danger); }  /* "Cons" heading color */.pc-block p { font-size: 0.88rem; color: var(--bone); white-space: pre-wrap; }
-
+.pc-block.pros h4 { color: var(--trust); }
+.pc-block.cons h4 { color: var(--danger); }
+.pc-block p {
+  font-size: 0.88rem;
+  color: var(--bone);
+  white-space: pre-wrap;
+  overflow-wrap: break-word; /* forces long words/links to break instead of overflowing */
+}
 /* Long pros/cons text gets clipped to 3 lines by default... */
 .pc-block p.clamp-text {
   display: -webkit-box;
