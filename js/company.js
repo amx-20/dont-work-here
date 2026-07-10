@@ -52,7 +52,7 @@ function renderCompany() {
   const sorted = [...companyReviews].sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp));
 
   // ---- Build one HTML "card" per review ----
-  document.getElementById("review-list").innerHTML = sorted.map(r => {
+  document.getElementById("review-list").innerHTML = sorted.map((r, i) => {
     const rating10 = Number(r.overall_rating);
     // Converts the 1–10 rating into a 1–5 star display (10/10 = 5 stars, 4/10 = 2 stars, etc.)
     const filledStars = Math.round(rating10 / 2);
@@ -73,13 +73,22 @@ function renderCompany() {
         </div>
       </div>
       <!-- Pros and Cons, side by side (stacked on mobile via CSS) -->
-      <div class="pc-row">
-        <div class="pc-block pros"><h4 data-i18n="pros">${t.pros}</h4><p>${r.pros || ""}</p></div>
-        <div class="pc-block cons"><h4 data-i18n="cons">${t.cons}</h4><p>${r.cons || ""}</p></div>
+<div class="pc-row">
+        <div class="pc-block pros">
+          <h4 data-i18n="pros">${t.pros}</h4>
+          <p class="clamp-text" id="pros-${i}">${r.pros || ""}</p>
+          <button class="see-more-btn" data-target="pros-${i}" onclick="toggleClamp(this)">${t.seeMore}</button>
+        </div>
+        <div class="pc-block cons">
+          <h4 data-i18n="cons">${t.cons}</h4>
+          <p class="clamp-text" id="cons-${i}">${r.cons || ""}</p>
+          <button class="see-more-btn" data-target="cons-${i}" onclick="toggleClamp(this)">${t.seeMore}</button>
+        </div>
       </div>
     </div>
   `;
-  }).join(""); // joins all the review cards into one big block of HTML
+  }).join("");
+  updateSeeMoreButtons();// joins all the review cards into one big block of HTML
 }
 
 // =====================================================
