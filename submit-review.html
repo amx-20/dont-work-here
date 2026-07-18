@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <script>
+  // Runs immediately, before anything else loads or paints — applies
+  // the visitor's saved theme/language right away, so there's no flash
+  // of the wrong theme or a mirrored layout while the rest of the page
+  // is still loading.
+  (function() {
+    var theme = localStorage.getItem("ccr_theme") || "dark";
+    var lang = localStorage.getItem("ccr_lang") || "ar";
+    var dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("lang", lang);
+    document.documentElement.setAttribute("dir", dir);
+  })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit a Review — Call Center Reviews Egypt</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Markazi+Text:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Page-specific styles: form fields, star-rating widget, perk chips,
+       confirmation screen. Kept local rather than in the shared
+       style.css since nothing else on the site reuses these. -->
+  <style>
+    .form-wrap { max-width: 640px; margin: 0 auto; padding: 20px 0 80px; }
+    h1 { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.6rem; margin: 20px 0 6px; }
+    body.rtl h1 { font-family: 'Markazi Text', serif; font-size: 2rem; }
+    .lead { color: var(--muted); font-size: 0.9rem; margin-bottom: 28px; }
+
+    .field { margin-bottom: 22px; }
+    label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; }
+
+    input[type=text], select, textarea {
+      width: 100%; background: var(--slate); border: 1px solid var(--line); color: var(--bone);
+      border-radius: 8px; padding: 11px 12px; font-family: inherit; font-size: 0.9rem;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--trust); }
+
+    .status-toggle { display: flex; gap: 10px; }
+    .status-toggle label {
+      flex: 1; text-align: center; background: var(--slate); border: 1px solid var(--line);
+      border-radius: 8px; padding: 10px; font-size: 0.85rem; font-weight: 500; cursor: pointer; margin: 0;
+    }
+    .status-toggle input { display: none; }
+    .status-toggle label:has(input:checked) { background: var(--trust); border-color: var(--trust); color: var(--ink); }
+
+    .cat-field {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line);
+    }
+    .cat-field:last-child { border-bottom: none; }
+    .cat-top { font-size: 0.9rem; font-weight: 600; }
+
+    /* Star rating: pure CSS hover/fill, no JS needed for the visual effect */
+    .star-rating-wrap { direction: ltr; display: inline-flex; flex-direction: row-reverse; gap: 4px; }
+    .star-rating-wrap input { display: none; }
+    .star-rating-wrap label { font-size: 1.8rem; color: var(--line); cursor: pointer; transition: color 0.1s; line-height: 1; margin: 0; }
+    .star-rating-wrap input:checked ~ label,
+    .star-rating-wrap label:hover,
+    .star-rating-wrap label:hover ~ label { color: var(--signal); }
+
+    .perks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 480px) { .perks-grid { grid-template-columns: 1fr; } }
+    .perk-chip {
+      background: var(--slate); border: 1px solid var(--line); border-radius: 8px;
+      padding: 10px 12px; font-size: 0.82rem; display: flex; align-items: center; gap: 8px; cursor: pointer;
+    }
+    .perk-chip input { accent-color: var(--trust); }
+    .perk-chip:has(input:checked) { border-color: var(--trust); background: rgba(79,209,197,0.08); }
+
+    .recommend-toggle { display: flex; gap: 10px; }
+    .recommend-toggle label {
+      flex: 1; text-align: center; background: var(--slate); border: 1px solid var(--line);
+      border-radius: 8px; padding: 12px; font-size: 0.9rem; font-weight: 600; cursor: pointer; margin: 0;
+    }
+    .recommend-toggle input { display: none; }
+    .recommend-toggle label:has(input:checked) { background: var(--trust); border-color: var(--trust); color: var(--ink); }
+
+    .section-divider {
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+      margin: 36px 0 18px; padding-top: 20px; border-top: 1px solid var(--line);
+    }
+
+    .submit-btn {
+      width: 100%; background: var(--signal); color: var(--ink); border: none; border-radius: 10px;
+      padding: 15px; font-size: 0.95rem; font-weight: 700; cursor: pointer; margin-top: 10px;
+      font-family: inherit; transition: opacity 0.2s ease;
+    }
+    .submit-btn:hover { opacity: 0.92; }
+    .submit-btn:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
+
+    .anon-note {
+      margin-top: 16px; padding: 12px 14px; border-radius: 8px; background: rgba(79,209,197,0.05); border: 1px solid var(--line);
+      color: var(--muted); font-size: 0.78rem; text-align: center;
+    }
+
+    .duplicate-warning {
+      display: none; color: var(--danger); background: rgba(217, 105, 95, 0.1);
+      border: 1px solid var(--danger); border-radius: 8px; padding: 10px 12px;
+      font-size: 0.85rem; margin-top: 10px; font-weight: 500;
+    }
+
+    #confirm { display: none; text-align: center; padding: 80px 0; }
+    #confirm .check { font-size: 3rem; color: var(--trust); margin-bottom: 16px; }
+    #confirm h2 { font-family: 'Fraunces', serif; font-size: 1.6rem; margin-bottom: 8px; }
+    body.rtl #confirm h2 { font-family: 'Markazi Text', serif; font-size: 2rem; }
+    #confirm p { color: var(--muted); font-size: 0.9rem; margin-bottom: 28px; }
+    #confirm .actions { display: flex; gap: 12px; justify-content: center; }
+    #confirm .actions a { text-decoration: none; padding: 11px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
+    .btn-primary { background: var(--signal); color: var(--ink); }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- Minimal subpage top bar — same pattern as company.html/compare.html -->
+  <div class="page-topbar anim-in" style="--delay: 0s">
+    <a class="icon-back-link" href="index.html" aria-label="Back to all companies">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <button class="hamburger-btn" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-panel">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+
+  <!-- Slide-in navigation menu: identical markup on every page -->
+  <div class="nav-overlay" id="nav-overlay" onclick="closeNav()"></div>
+  <nav class="nav-panel" id="nav-panel" aria-hidden="true">
+    <button class="nav-close" id="nav-close" aria-label="Close menu" onclick="closeNav()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html" data-i18n="navHome"></a></li>
+      <li><a href="submit-review.html" data-i18n="navSubmit"></a></li>
+      <li><a href="compare.html" data-i18n="navCompare"></a></li>
+      <li><a href="about.html" data-i18n="navAbout"></a></li>
+    </ul>
+    <div class="nav-toggles">
+      <button class="pill-btn" id="lang-toggle" aria-label="Switch language">EN</button>
+      <button class="pill-btn" id="theme-toggle" aria-label="Switch theme">☀</button>
+    </div>
+  </nav>
+
+  <div class="form-wrap anim-in" style="--delay:.1s">
+    <div id="form-view">
+      <h1 data-i18n="submitTitle">Share your experience</h1>
+      <div class="lead" data-i18n="submitDesc">Your review is completely anonymous. Takes about 3 minutes.</div>
+
+      <!-- novalidate: browser native validation is disabled entirely, since it
+           can't show its built-in error bubble on the hidden star-rating/
+           status/recommend radios — validateForm() in the script below
+           handles every field manually instead, so behavior is identical
+           across every browser and device. -->
+      <form id="review-form" novalidate>
+        <div class="field">
+          <label data-i18n="formCompany">Company Name</label>
+          <select id="company_name" required>
+            <option value="" data-i18n="formCompanySelect">Select a company...</option>
+            <option value="Teleperformance">Teleperformance</option>
+            <option value="Concentrix">Concentrix</option>
+            <option value="Majorel">Majorel</option>
+            <option value="Raya CX">Raya CX</option>
+            <option value="Xceed">Xceed</option>
+            <option value="Sutherland">Sutherland</option>
+            <option value="Foundever">Foundever</option>
+            <option value="Capgemini">Capgemini</option>
+            <option value="Intelcia">Intelcia</option>
+            <option value="ContactPoint 360">ContactPoint 360</option>
+            <option value="TTEC">TTEC</option>
+            <option value="Etisal International">Etisal International</option>
+            <option value="Elevate">Elevate</option>
+            <option value="Wasla Contact Center">Wasla Contact Center</option>
+            <option value="iCall">iCall</option>
+            <option value="Other" data-i18n="formOther">Other</option>
+          </select>
+          <input type="text" id="company_custom" data-i18n-placeholder="formCompanyCustomPh" style="display: none; margin-top: 8px;" placeholder="Type company name...">
+          <div id="duplicate-warning" class="duplicate-warning" data-i18n="formDuplicate">
+            You've already submitted a review for this company from this device.
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-i18n="formBranch">Branch / City</label>
+          <select id="branch_select" disabled required>
+            <option value="" data-i18n="formBranchSelectInitial">Select a company first...</option>
+          </select>
+          <input type="text" id="branch_custom" data-i18n-placeholder="formBranchCustomPh" style="display: none; margin-top: 8px;" placeholder="Type your branch/city...">
+        </div>
+
+        <div class="field">
+          <label data-i18n="formAccount">Account / Project</label>
+          <input type="text" id="account" data-i18n-placeholder="formAccountPh" placeholder="e.g. Microsoft, Vodafone UK">
+        </div>
+
+        <div class="field">
+          <label data-i18n="formJobTitle">Job Title</label>
+          <input type="text" id="job_title" data-i18n-placeholder="formJobTitlePh" placeholder="e.g. Customer Service Advisor" required>
+        </div>
+
+        <div class="field" id="status-field">
+          <label data-i18n="formStatus">Employment Status</label>
+          <div class="status-toggle">
+            <label><input type="radio" name="status" value="Current Employee" required><span data-i18n="formStatusCurrent">Current Employee</span></label>
+            <label><input type="radio" name="status" value="Former Employee" required><span data-i18n="formStatusFormer">Former Employee</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-i18n="formDuration">How long did you work there?</label>
+          <select id="duration" required>
+            <option value="" data-i18n="formDurationSelect">Select duration...</option>
+            <option value="أقل من ٦ شهور" data-i18n="dur1">Less than 6 months</option>
+            <option value="من ٦ شهور لسنة" data-i18n="dur2">6 months to 1 year</option>
+            <option value="من سنة لسنة ونص" data-i18n="dur3">1 to 1.5 years</option>
+            <option value="سنتين أو أكتر" data-i18n="dur4">2+ years</option>
+          </select>
+        </div>
+
+        <div class="section-divider" data-i18n="formRateTitle">Rate your experience</div>
+        <div id="sliders"></div>
+
+        <div class="section-divider" data-i18n="formPerksTitle">Perks &amp; benefits provided</div>
+        <div class="perks-grid" id="perks"></div>
+
+        <div class="section-divider" data-i18n="formMoreTitle">Tell us more</div>
+
+        <div class="field">
+          <label data-i18n="pros">Pros</label>
+          <textarea id="pros" data-i18n-placeholder="formProsPh" placeholder="What did you like about working here?" required></textarea>
+        </div>
+
+        <div class="field">
+          <label data-i18n="cons">Cons</label>
+          <textarea id="cons" data-i18n-placeholder="formConsPh" placeholder="What could be improved?" required></textarea>
+        </div>
+
+        <div class="field" id="rec-field">
+          <label data-i18n="formRec">Would you recommend this company to a friend?</label>
+          <div class="recommend-toggle">
+            <label><input type="radio" name="rec" value="Yes" required><span data-i18n="formRecYes">👍 Yes</span></label>
+            <label><input type="radio" name="rec" value="No" required><span data-i18n="formRecNo">👎 No</span></label>
+          </div>
+        </div>
+
+        <button type="submit" id="submit-btn" class="submit-btn" data-i18n="formSubmitBtn">Submit Review</button>
+        <div class="anon-note" data-i18n="formAnonNote">🔒 We never collect your name, email, or IP address with your review.</div>
+      </form>
+    </div>
+
+    <!-- Success confirmation state — shown in place of the form after a successful submit -->
+    <div id="confirm">
+      <div class="check">✓</div>
+      <h2 data-i18n="formConfirmTitle">Thank you for your review!</h2>
+      <p data-i18n="formConfirmDesc">It'll appear on the company page shortly — usually within a few minutes.</p>
+      <div class="actions">
+        <a href="index.html" class="btn-primary" data-i18n="formConfirmBtn">Browse Companies</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Icon-only social links, no text — same pattern as index.html/company.html/compare.html -->
+  <div class="footer-social">
+    <a href="https://www.linkedin.com/in/amx20" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.53-1 1.83-2 3.77-2 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.6c0-1.34-.03-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97V21H9z"/></svg>
+    </a>
+    <a href="https://github.com/amx-20" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.88-2.78.61-3.37-1.21-3.37-1.21-.46-1.19-1.11-1.51-1.11-1.51-.91-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.55 2.34 1.1 2.91.84.09-.66.35-1.1.63-1.36-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+    </a>
+    <a href="mailto:2001ahmedmahmoud@gmail.com" aria-label="Email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18v12H3z"/><path d="M3 6l9 7 9-7"/></svg>
+    </a>
+    <a href="https://t.me/amx_20" target="_blank" rel="noopener" aria-label="Telegram">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 3.5 2.7 10.8c-.9.35-.9 1.6.02 1.9l4.6 1.4 1.8 5.4c.28.85 1.35 1.1 1.98.47l2.7-2.7 4.9 3.6c.8.58 1.95.15 2.13-.83l3.1-15.3c.2-.98-.75-1.75-1.63-1.42z"/></svg>
+    </a>
+  </div>
+
+  <footer data-i18n="footer"></footer>
+</div>
+
+<!-- =====================================================
+     FORM LOGIC
+     Runs BEFORE i18n.js/nav.js load at the bottom — deliberate: this
+     script builds the sliders/perks DOM immediately (so their
+     data-i18n attributes exist in time for i18n.js's translation pass
+     later), and reads document.documentElement.lang directly rather
+     than calling a getLang() helper, since i18n.js hasn't loaded yet
+     when this runs. That attribute is already correct by this point
+     though, thanks to the flash-prevention script at the top of <head>.
+     ===================================================== -->
+<script>
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUPTsa74eaQz6ID_3s1meOOPhmx0OjDEc09wgYuNL5z_R-uTYG5yosCFKdXt_EdZxM/exec";
+
+  const ratingCategories = [
+    { key: "rating_compensation", labelKey: "catSalary" },
+    { key: "rating_worklife", labelKey: "catWorkLife" },
+    { key: "rating_management", labelKey: "catManagement" },
+    { key: "rating_training", labelKey: "catTraining" },
+    { key: "rating_growth", labelKey: "catCareer" },
+    { key: "rating_culture", labelKey: "catCulture" }
+  ];
+
+  // Values are always Arabic, regardless of site UI language — matches
+  // the same convention the original Google Form used, so old and new
+  // submissions stay compatible in the Sheet.
+  const perksList = [
+    { key: "perkTransport", value: "🚌 مواصلات" },
+    { key: "perkMedical", value: "🏥 تأمين طبي" },
+    { key: "perkBonus", value: "💰 بونص" },
+    { key: "perkWFH", value: "🏠 شغل من البيت" }
+  ];
+
+  document.getElementById("sliders").innerHTML = ratingCategories.map((c) => `
+    <div class="cat-field" id="field-${c.key}">
+      <div class="cat-top"><span data-i18n="${c.labelKey}"></span></div>
+      <div class="star-rating-wrap">
+        <input type="radio" id="${c.key}-5" name="${c.key}" value="5" required>
+        <label for="${c.key}-5">★</label>
+        <input type="radio" id="${c.key}-4" name="${c.key}" value="4">
+        <label for="${c.key}-4">★</label>
+        <input type="radio" id="${c.key}-3" name="${c.key}" value="3">
+        <label for="${c.key}-3">★</label>
+        <input type="radio" id="${c.key}-2" name="${c.key}" value="2">
+        <label for="${c.key}-2">★</label>
+        <input type="radio" id="${c.key}-1" name="${c.key}" value="1">
+        <label for="${c.key}-1">★</label>
+      </div>
+    </div>
+  `).join("");
+
+  document.getElementById("perks").innerHTML = perksList.map((p) => `
+    <label class="perk-chip"><input type="checkbox" name="perk" value="${p.value}"><span data-i18n="${p.key}"></span></label>
+  `).join("");
+
+  const companyBranches = {
+    "Teleperformance": ["Smart Village", "New Cairo", "Alexandria"],
+    "Concentrix": ["Smart Village", "Maadi", "New Cairo", "Alexandria", "6th of October"],
+    "Majorel": ["Cairo", "Alexandria", "Smart Village"],
+    "Raya CX": ["Cairo", "Giza", "Alexandria"],
+    "Xceed": ["Cairo", "Smart Village", "Alexandria"],
+    "Sutherland": ["Cairo", "New Cairo", "Alexandria"],
+    "Foundever": ["Cairo", "Alexandria"],
+    "Capgemini": ["Smart Village", "New Cairo", "Alexandria"],
+    "Intelcia": ["Sheikh Zayed", "Alexandria", "Cairo Festival City"],
+    "ContactPoint 360": ["Cairo", "Alexandria"],
+    "TTEC": ["Cairo"],
+    "Etisal International": ["Cairo"],
+    "Elevate": ["Cairo", "Alexandria"],
+    "Wasla Contact Center": ["Cairo"],
+    "iCall": ["Cairo"]
+  };
+
+  const reviewedCompanies = JSON.parse(localStorage.getItem('reviewedCompanies') || '[]');
+  const companySelect = document.getElementById("company_name");
+  const companyCustom = document.getElementById("company_custom");
+  const branchSelect = document.getElementById("branch_select");
+  const branchCustom = document.getElementById("branch_custom");
+  const submitBtn = document.getElementById("submit-btn");
+  const warningMsg = document.getElementById("duplicate-warning");
+
+  function hasAlreadyReviewed(companyName) {
+    return reviewedCompanies.includes(companyName);
+  }
+
+  function markAsReviewed(companyName) {
+    if (!reviewedCompanies.includes(companyName)) {
+      reviewedCompanies.push(companyName);
+      localStorage.setItem('reviewedCompanies', JSON.stringify(reviewedCompanies));
+    }
+  }
+
+  function checkDuplicateUI(companyName) {
+    if (companyName && companyName !== "Other" && hasAlreadyReviewed(companyName)) {
+      warningMsg.style.display = "block";
+      submitBtn.disabled = true;
+    } else {
+      warningMsg.style.display = "none";
+      submitBtn.disabled = false;
+    }
+  }
+
+  companySelect.addEventListener('change', (e) => {
+    const companyName = e.target.value;
+    checkDuplicateUI(companyName);
+
+    if (companyName === "Other") {
+      companyCustom.style.display = "block";
+      companyCustom.required = true;
+    } else {
+      companyCustom.style.display = "none";
+      companyCustom.required = false;
+      companyCustom.value = "";
+    }
+
+    const tBranchInitial = document.documentElement.lang === "ar" ? "اختار الشركة الأول..." : "Select a company first...";
+    const tBranchSelect = document.documentElement.lang === "ar" ? "اختار الفرع..." : "Select branch...";
+    const tBranchOther = document.documentElement.lang === "ar" ? "فرع تاني..." : "Other branch...";
+
+    branchSelect.innerHTML = "";
+    branchCustom.style.display = "none";
+    branchCustom.required = false;
+    branchCustom.value = "";
+
+    if (companyName === "" || companyName === "Other") {
+      branchSelect.innerHTML = `<option value="">${tBranchInitial}</option>`;
+      branchSelect.disabled = true;
+      if (companyName === "Other") {
+        branchSelect.style.display = "none";
+        branchCustom.style.display = "block";
+        branchCustom.required = true;
+      } else {
+        branchSelect.style.display = "block";
+      }
+    } else {
+      branchSelect.style.display = "block";
+      branchSelect.disabled = false;
+      branchSelect.innerHTML = `<option value="">${tBranchSelect}</option>`;
+
+      const branches = companyBranches[companyName] || [];
+      branches.forEach(b => {
+        branchSelect.innerHTML += `<option value="${b}">${b}</option>`;
+      });
+      branchSelect.innerHTML += `<option value="Other">${tBranchOther}</option>`;
+    }
+  });
+
+  // If arriving from a company page's "Rate this company" link,
+  // pre-select that company and populate its branch list automatically.
+  const urlCompany = new URLSearchParams(window.location.search).get("company");
+  if (urlCompany) {
+    const matchedOption = Array.from(companySelect.options).find(opt => opt.value === urlCompany);
+    if (matchedOption) {
+      companySelect.value = urlCompany;
+      companySelect.dispatchEvent(new Event("change"));
+    }
+  }
+
+  // Check duplicate when typing custom company, AND check whether the
+  // typed name actually matches one of our known companies — if so,
+  // show its real branch list instead of a free-text branch box.
+  companyCustom.addEventListener('input', (e) => {
+    const typedName = e.target.value.trim();
+    checkDuplicateUI(typedName);
+
+    const matchedCompany = Object.keys(companyBranches).find(
+      name => name.toLowerCase() === typedName.toLowerCase()
+    );
+
+    const tBranchSelect = document.documentElement.lang === "ar" ? "اختار الفرع..." : "Select branch...";
+    const tBranchOther = document.documentElement.lang === "ar" ? "فرع تاني..." : "Other branch...";
+
+    if (matchedCompany) {
+      branchSelect.innerHTML = `<option value="">${tBranchSelect}</option>`;
+      companyBranches[matchedCompany].forEach(b => {
+        branchSelect.innerHTML += `<option value="${b}">${b}</option>`;
+      });
+      branchSelect.innerHTML += `<option value="Other">${tBranchOther}</option>`;
+      branchSelect.disabled = false;
+      branchSelect.style.display = "block";
+      branchCustom.style.display = "none";
+      branchCustom.required = false;
+      branchCustom.value = "";
+    } else {
+      branchSelect.disabled = true;
+      branchSelect.style.display = "none";
+      branchCustom.style.display = "block";
+      branchCustom.required = true;
+    }
+  });
+
+  // Toggle custom branch input when "Other branch" is picked
+  branchSelect.addEventListener('change', (e) => {
+    if (e.target.value === "Other") {
+      branchCustom.style.display = "block";
+      branchCustom.required = true;
+    } else {
+      branchCustom.style.display = "none";
+      branchCustom.required = false;
+      branchCustom.value = "";
+    }
+  });
+
+  // Checks that a piece of text actually looks like real content:
+  // long enough, AND contains at least one real letter (Arabic or
+  // English) — rejects things like ".", "123", or "   " which pass
+  // a simple "not empty" check but aren't meaningful data.
+  function isMeaningfulText(value, minLength) {
+    const trimmed = value.trim();
+    if (trimmed.length < minLength) return false;
+    return /[a-zA-Z\u0600-\u06FF]/.test(trimmed);
+  }
+
+  // Validates EVERY required field manually — text inputs, selects,
+  // and the hidden radio groups — so behavior is 100% identical on
+  // every browser/device, with no reliance on native browser validation.
+  function validateForm() {
+    const isAr = document.documentElement.lang === "ar";
+    const t = {
+      required: isAr ? "الحقل ده لازم يتملى" : "This field is required",
+      choose: isAr ? "من فضلك اختار حاجة" : "Please make a selection"
+    };
+    const tGarbage = isAr ? "من فضلك اكتب إجابة حقيقية" : "Please enter a real answer";
+
+    document.querySelectorAll(".field-invalid").forEach(el => el.classList.remove("field-invalid"));
+    document.querySelectorAll(".field-error-msg").forEach(el => el.remove());
+
+    function fail(fieldEl, message) {
+      fieldEl.classList.add("field-invalid");
+      const msgEl = document.createElement("div");
+      msgEl.className = "field-error-msg";
+      msgEl.textContent = message;
+      fieldEl.appendChild(msgEl);
+      fieldEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    // Text/select fields, checked in the order they appear on the page.
+    // "minLength" fields also get checked for real letters, not just
+    // "not empty" — catches junk like ".", "123", or spaces.
+    const textChecks = [
+      { el: companySelect.closest(".field"), value: companySelect.value },
+      { el: companyCustom.closest(".field"), value: companyCustom.value.trim(), skip: companySelect.value !== "Other", minLength: 2 },
+      { el: (branchSelect.style.display !== "none" ? branchSelect : branchCustom).closest(".field"), value: (branchSelect.style.display !== "none" ? branchSelect.value : branchCustom.value.trim()), minLength: branchSelect.style.display === "none" ? 2 : 0 },
+      { el: document.getElementById("job_title").closest(".field"), value: document.getElementById("job_title").value.trim(), minLength: 2 },
+      { el: document.getElementById("duration").closest(".field"), value: document.getElementById("duration").value },
+      { el: document.getElementById("pros").closest(".field"), value: document.getElementById("pros").value.trim(), minLength: 10 },
+      { el: document.getElementById("cons").closest(".field"), value: document.getElementById("cons").value.trim(), minLength: 10 }
+    ];
+
+    for (const check of textChecks) {
+      if (check.skip) continue;
+      if (!check.value) {
+        fail(check.el, t.required);
+        return false;
+      }
+      if (check.minLength && !isMeaningfulText(check.value, check.minLength)) {
+        fail(check.el, tGarbage);
+        return false;
+      }
+    }
+
+    // Account field is optional — but if someone DID type something,
+    // it should still be real text, not just symbols/numbers.
+    const accountValue = document.getElementById("account").value.trim();
+    if (accountValue && !isMeaningfulText(accountValue, 2)) {
+      fail(document.getElementById("account").closest(".field"), tGarbage);
+      return false;
+    }
+
+    // Hidden radio groups (star ratings, employment status, recommend)
+    const radioGroups = [
+      { name: "status", fieldId: "status-field" },
+      ...ratingCategories.map(c => ({ name: c.key, fieldId: `field-${c.key}` })),
+      { name: "rec", fieldId: "rec-field" }
+    ];
+
+    for (const group of radioGroups) {
+      if (!document.querySelector(`input[name="${group.name}"]:checked`)) {
+        fail(document.getElementById(group.fieldId), t.choose);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  document.getElementById("review-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    const finalCompanyName = companySelect.value === "Other" ? companyCustom.value.trim() : companySelect.value;
+
+    // If a real branch dropdown is currently visible and enabled (either
+    // from a normal company selection, or "Other" + a typed name that
+    // matched a known company), use its value. Otherwise fall back to
+    // the free-text branch box.
+    const branchDropdownActive = !branchSelect.disabled && branchSelect.style.display !== "none";
+    const finalBranch = branchDropdownActive
+      ? (branchSelect.value === "Other" ? branchCustom.value.trim() : branchSelect.value)
+      : branchCustom.value.trim();
+
+    if (hasAlreadyReviewed(finalCompanyName)) return;
+
+    const formData = {
+      company_name: finalCompanyName,
+      branch: finalBranch,
+      account: document.getElementById("account").value,
+      job_title: document.getElementById("job_title").value,
+      employment_status: document.querySelector('input[name="status"]:checked').value,
+      duration: document.getElementById("duration").value,
+      rating_compensation: document.querySelector('input[name="rating_compensation"]:checked').value,
+      rating_worklife: document.querySelector('input[name="rating_worklife"]:checked').value,
+      rating_management: document.querySelector('input[name="rating_management"]:checked').value,
+      rating_training: document.querySelector('input[name="rating_training"]:checked').value,
+      rating_growth: document.querySelector('input[name="rating_growth"]:checked').value,
+      rating_culture: document.querySelector('input[name="rating_culture"]:checked').value,
+      perks: Array.from(document.querySelectorAll('input[name="perk"]:checked')).map(cb => cb.value),
+      pros: document.getElementById("pros").value,
+      cons: document.getElementById("cons").value,
+      would_recommend: document.querySelector('input[name="rec"]:checked').value
+    };
+
+    submitBtn.textContent = "Submitting...";
+    submitBtn.disabled = true;
+
+    try {
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(formData)
+      });
+      const result = await response.json();
+
+      if (result.status === "success") {
+        markAsReviewed(formData.company_name);
+        document.getElementById("form-view").style.display = "none";
+        document.getElementById("confirm").style.display = "block";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        throw new Error("Backend error");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong saving your review. Please try again.");
+      submitBtn.textContent = "Submit Review";
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+<script src="js/i18n.js"></script>
+<script src="js/nav.js"></script>
+
+</body>
+</html>

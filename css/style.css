@@ -1,316 +1,461 @@
 /* =====================================================
-   THEME TOKENS
-   These are the "color palette" variables used everywhere
-   else in this file. Change a color ONCE here, and it
-   updates across the entire site automatically.
-
-   The dark block is the DEFAULT theme (what visitors see
-   first). The light block only applies when the theme
-   button switches data-theme to "light" on the <html> tag.
+   THEME TOKENS — change a color once here, updates everywhere.
+   Dark is default; light applies when data-theme="light".
    ===================================================== */
-:root,
-[data-theme="dark"] {
-  --ink: #12151A;       /* main page background */
-  --slate: #1C212B;     /* card/box background */
-  --slate-2: #232935;   /* slightly lighter box background (currently unused, reserved) */
-  --bone: #EDEAE1;      /* main text color */
-  --muted: #8B909B;     /* secondary/grey text (labels, captions) */
-  --signal: #F2A93B;    /* accent color: ratings, highlights, hover states */
-  --trust: #4FD1C5;     /* accent color: stats, positive elements */
-  --danger: #D9695F;    /* accent color: low ratings, "cons" heading */
-  --line: #2C3340;      /* borders and dividers */
+:root, [data-theme="dark"] {
+  --ink:#12151A; --slate:#1C212B; --slate-2:#232935; --bone:#EDEAE1; --muted:#8B909B;
+  --signal:#F2A93B; --trust:#4FD1C5; --danger:#D9695F; --line:#2C3340;
+  /* Rating-quality badge colors (compare page), 4 fixed tiers independent of who "wins".
+     Red/green stay vivid on purpose; orange/blue stay muted and distinct from --signal. */
+  --rate-red:#ff0000; --rate-orange:#ffbf00; --rate-green:#40ff00; --rate-blue:#4A9FE0;
+  /* Compare-page radar colors (slot A/B) — deliberately NOT --signal/--trust, since those
+     are fixed brand identity elsewhere; these represent "whichever slot", not a company. */
+  --compare-a:#A855F7; --compare-b:#38BDF8;
 }
 [data-theme="light"] {
-  --ink: #F7F5EF;
-  --slate: #FFFFFF;
-  --slate-2: #F0EEE7;
-  --bone: #1C212B;
-  --muted: #767B85;
-  --signal: #C97A1A;
-  --trust: #1E8C80;
-  --danger: #B1483F;
-  --line: #E1DDD2;
+  --ink:#F7F5EF; --slate:#FFFFFF; --slate-2:#F0EEE7; --bone:#1C212B; --muted:#767B85;
+  --signal:#C97A1A; --trust:#1E8C80; --danger:#B1483F; --line:#E1DDD2;
+  --rate-red:#ff0000; --rate-orange:#ffbf00; --rate-green:#40ff00; --rate-blue:#00ffff;
+  --compare-a:#7C3AED; --compare-b:#0284C7;
 }
 
-/* Resets browser default spacing so every element starts from a clean, predictable baseline */
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing:border-box; margin:0; padding:0; }
 
 /* =====================================================
-   BASE PAGE STYLING
-   Applies to the whole page by default (English/LTR mode).
+   STAGGERED ENTRANCE ANIMATION — class="anim-in" fades/slides up on
+   load; timing set per-element via inline --delay.
    ===================================================== */
-body {
-  background: var(--ink);
-  color: var(--bone);
-  font-family: 'IBM Plex Sans', sans-serif;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  transition: background 0.2s ease, color 0.2s ease; /* smooth fade when switching themes */
-}
+@keyframes fadeSlideUp { from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+.anim-in { opacity:0; animation:fadeSlideUp .5s ease forwards; animation-delay:var(--delay,0s); }
 
 /* =====================================================
-   ARABIC / RTL OVERRIDES
-   js/i18n.js adds the class "rtl" to <body> when Arabic
-   is active. These rules only apply in that case, swapping
-   in Arabic-friendly fonts since the English fonts (Fraunces,
-   IBM Plex Sans) don't contain Arabic letters.
+   BASE PAGE (English/LTR default)
    ===================================================== */
-body.rtl {
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-}
-body.rtl .logo,
-body.rtl .hero h1,
-body.rtl .section-head h2,
-body.rtl .company-header h1 {
-  font-family: 'Markazi Text', serif; /* Arabic-compatible "serif-style" heading font */
-}
-
-/* Centers all page content and caps its width so it doesn't stretch too wide on big screens */
-.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-
-/* Makes links inherit the surrounding text color instead of default browser blue */
-a { color: inherit; }
+body { background:var(--ink); color:var(--bone); font-family:'IBM Plex Sans',sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; transition:background .2s ease, color .2s ease; }
 
 /* =====================================================
-   HEADER
-   The bar at the top of every page: logo, tagline, and
-   the two toggle buttons.
+   ARABIC / RTL — body.rtl added by js/i18n.js
    ===================================================== */
-header { border-bottom: 1px solid var(--line); padding: 28px 0 24px; }
-.header-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
-.logo { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.5rem; letter-spacing: -0.01em; }
-.logo span { color: var(--signal); } /* colors just the "Egypt" part of the logo */
-.tagline { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+body.rtl { font-family:'IBM Plex Sans Arabic', sans-serif; }
+body.rtl .logo, body.rtl .hero h1, body.rtl .section-head h2, body.rtl .company-header h1 { font-family:'Markazi Text', serif; }
+/* Markazi Text renders smaller than Fraunces at the same size — logo needs a bigger explicit size to look visually equal */
+body.rtl .logo { font-size:1.90rem; }
 
-/* Container holding the language + theme buttons, side by side */
-.header-controls { display: flex; gap: 8px; }
+.wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
+a { color:inherit; }
 
-/* The round pill-shaped buttons themselves (used for both toggle buttons) */
+/* =====================================================
+   HEADER — sticky logo/tagline + toggle buttons, every page
+   ===================================================== */
+header {
+  position:sticky; top:0; z-index:1000;
+  background:var(--ink); border-bottom:1px solid var(--line); padding:5px 0;
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  transition:opacity .2s ease;
+}
+body.nav-open header { opacity:0; pointer-events:none; } /* hides header while the slide-in nav is open */
+.header-row { display:flex; justify-content:space-between; align-items:flex-start; gap:20px; }
+.header-main { flex:1; min-width:0; }
+.logo { font-family:'Fraunces', serif; font-weight:600; font-size:1.5rem; letter-spacing:-0.01em; }
+.logo span { color:var(--signal); }
+.tagline { color:var(--muted); font-size:.85rem; margin-top:4px; }
+.header-controls { display:flex; gap:8px; }
+
 .pill-btn {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--muted);
-  background: transparent;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 6px 14px;
-  cursor: pointer;
-  min-width: 44px; /* keeps buttons easy to tap on mobile */
+  font-family:'IBM Plex Mono', monospace; font-size:.75rem; color:var(--muted);
+  background:transparent; border:1px solid var(--line); border-radius:20px; padding:6px 14px;
+  cursor:pointer; min-width:44px; /* easy tap target on mobile */
 }
-.pill-btn:hover { border-color: var(--signal); color: var(--signal); }
-/* Visible outline when navigating by keyboard (Tab key), for accessibility */
-.pill-btn:focus-visible { outline: 2px solid var(--trust); outline-offset: 2px; }
+.pill-btn:hover { border-color:var(--signal); color:var(--signal); }
+.pill-btn:focus-visible { outline:2px solid var(--trust); outline-offset:2px; }
+
+/* Theme toggle previews the OTHER theme as a solid swatch (not an abstract icon), so its
+   effect is obvious. Colors hardcoded to the opposite theme's real palette on purpose —
+   using --ink/--bone here would just match whichever theme is already active. */
+#theme-toggle { transition:background .2s ease, color .2s ease, border-color .2s ease; }
+[data-theme="dark"] #theme-toggle, :root:not([data-theme]) #theme-toggle { background:#F7F5EF; color:#1C212B; border-color:#E1DDD2; }
+[data-theme="dark"] #theme-toggle:hover, :root:not([data-theme]) #theme-toggle:hover { border-color:#C97A1A; color:#C97A1A; }
+[data-theme="light"] #theme-toggle { background:#12151A; color:#EDEAE1; border-color:#2C3340; }
+[data-theme="light"] #theme-toggle:hover { border-color:#F2A93B; color:#F2A93B; }
 
 /* =====================================================
-   HERO SECTION
-   The big intro headline + subtext + stat numbers at the
-   top of the homepage only.
+   HERO — homepage-only intro headline + stat numbers
    ===================================================== */
-.hero { padding: 56px 0 40px; border-bottom: 1px solid var(--line); }
-.hero h1 {
-  font-family: 'Fraunces', serif;
-  font-weight: 600;
-  font-size: clamp(1.9rem, 4vw, 2.6rem); /* auto-shrinks on small screens, grows on large ones */
-  max-width: 640px;
-  letter-spacing: -0.01em;
-}
-.hero h1 em { color: var(--signal); font-style: normal; } /* the highlighted part of the headline */
-.hero p { color: var(--muted); margin-top: 14px; max-width: 520px; font-size: 0.98rem; }
-.hero-stats { display: flex; gap: 36px; margin-top: 32px; flex-wrap: wrap; }
-.stat-num { font-family: 'IBM Plex Mono', monospace; font-size: 1.6rem; color: var(--trust); }
-.stat-label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.hero { padding:56px 0 40px; border-bottom:1px solid var(--line); }
+.hero h1 { font-family:'Fraunces', serif; font-weight:600; font-size:clamp(1.9rem,4vw,2.6rem); max-width:640px; letter-spacing:-0.01em; }
+.hero h1 em { color:var(--signal); font-style:normal; }
+.hero p { color:var(--muted); margin-top:14px; max-width:520px; font-size:.98rem; }
+.hero-stats { display:flex; gap:36px; margin-top:32px; flex-wrap:wrap; }
+.stat-num { font-family:'IBM Plex Mono', monospace; font-size:1.6rem; color:var(--trust); }
+.stat-label { color:var(--muted); font-size:.75rem; text-transform:uppercase; letter-spacing:.06em; }
 
 /* =====================================================
-   SECTION LABEL
-   Small heading + caption above the company card grid.
+   SECTION LABEL — heading above the company grid
    ===================================================== */
-.section-head { display: flex; justify-content: space-between; align-items: baseline; padding: 40px 0 20px; flex-wrap: wrap; gap: 6px; }
-.section-head h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.3rem; }
-.section-head .count { color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
+.section-head { display:flex; justify-content:space-between; align-items:baseline; padding:40px 0 20px; flex-wrap:wrap; gap:6px; }
+.section-head h2 { font-family:'Fraunces', serif; font-weight:600; font-size:1.3rem; }
+.section-head .count { color:var(--muted); font-family:'IBM Plex Mono', monospace; font-size:.8rem; }
 
 /* =====================================================
    COMPANY CARD GRID (homepage)
-   The clickable grid of company cards.
    ===================================================== */
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(420px,1fr)); gap:20px; padding-bottom:60px; }
 
-/* The grid itself: auto-fills as many columns as fit, each at least 420px wide */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-  gap: 20px;
-  padding-bottom: 60px;
-}
+/* One card — flex + dir="rtl"/"ltr" auto-mirrors it, no separate RTL rules needed */
+.card { background:var(--slate); border:1px solid var(--line); border-radius:14px; padding:20px; cursor:pointer; transition:transform .18s ease, border-color .18s ease; display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+.card:hover, .card:focus-visible { transform:translateY(-3px); border-color:var(--signal); }
+.card:focus-visible { outline:2px solid var(--trust); outline-offset:2px; }
 
-/* One individual company card */
-/* One individual company card.
-   Uses flex + the page's dir="rtl"/"ltr" attribute to automatically
-   mirror itself — no separate RTL/LTR rules needed for this card. */
-.card {
-  background: var(--slate);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 20px;
-  cursor: pointer;
-  transition: transform 0.18s ease, border-color 0.18s ease;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-.card:hover, .card:focus-visible { transform: translateY(-3px); border-color: var(--signal); }
-.card:focus-visible { outline: 2px solid var(--trust); outline-offset: 2px; }
+/* First group: logo + name + rating + meta. Right in Arabic, left in English — automatic from dir. */
+.card-info { display:flex; gap:14px; align-items:flex-start; flex:1; min-width:200px; }
+.card-logo { width:52px; height:52px; border-radius:10px; background:var(--slate-2); border:1px solid var(--line); flex-shrink:0; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.card-logo img { width:100%; height:100%; object-fit:contain; }
+.card-logo .logo-fallback { display:none; color:var(--muted); }
+.card-logo .logo-fallback svg { width:24px; height:24px; }
 
-/* First group in the HTML source: logo + name + rating + meta.
-   Appears on the RIGHT in Arabic, LEFT in English — automatic, from dir. */
-.card-info { display: flex; gap: 14px; align-items: flex-start; flex: 1; min-width: 200px; }
+.company-name { font-family:'Fraunces', serif; font-weight:600; font-size:1.1rem; margin-bottom:6px; }
+body.rtl .company-name { font-family:'Markazi Text', serif; font-size:1.3rem; }
 
-/* Logo box: shows the uploaded company logo image, or a fallback
-   building icon if no logo file exists for that company yet. */
-.card-logo {
-  width: 52px; height: 52px;
-  border-radius: 10px;
-  background: var(--slate-2);
-  border: 1px solid var(--line);
-  flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-}
-.card-logo img { width: 100%; height: 100%; object-fit: contain; }
-.card-logo .logo-fallback { display: none; color: var(--muted); }
-.card-logo .logo-fallback svg { width: 24px; height: 24px; }
+/* Company rating — gold/gray star system, shared with the company page */
+.card-stars { display:flex; align-items:center; gap:8px; margin-bottom:6px; font-size:.85rem; font-weight:600; color:var(--text); /* NOTE: --text isn't defined in theme tokens above — this silently falls back to inherited color */ }
+.stars { display:inline-flex; gap:1px; font-size:15px; line-height:1; }
+.star-filled { color:#fbbf24 !important; } /* gold */
+.star-empty { color:#6b7280; } /* gray */
 
-.company-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.1rem; margin-bottom: 6px; }
-body.rtl .company-name { font-family: 'Markazi Text', serif; font-size: 1.3rem; }
+.card-meta { display:flex; gap:14px; color:var(--muted); font-size:.78rem; flex-wrap:wrap; }
+.meta-item { display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
+.meta-item strong { font-weight:600; color:var(--text); /* same undefined-var note as above */ }
+.meta-icon { width:14px; height:14px; flex-shrink:0; color:var(--trust); }
 
-/* Star rating line, e.g. "★★★★☆ 7.4/10" */
-.card-stars { color: var(--signal); font-size: 0.85rem; margin-bottom: 6px; }
-.card-stars.mid { color: var(--muted); }
-.card-stars.low { color: var(--danger); }
+/* Second group: rating distribution chart. Left in Arabic, right in English — automatic from dir. */
+.card-distribution { width:200px; flex-shrink:0; }
+.dist-label { font-size:.72rem; color:var(--muted); margin-bottom:8px; }
+.dist-bars { display:flex; gap:4px; } /* each bar+number is one column so they can't drift apart */
+.dist-col { flex:1; display:flex; flex-direction:column; align-items:center; }
+.dist-bar-wrap { height:36px; width:100%; display:flex; align-items:flex-end; justify-content:center; }
+.dist-bar { width:55%; background:var(--line); border-radius:3px 3px 0 0; }
+.dist-bar.filled { background:#2d6cdf; } /* NOTE: hardcoded blue, not var(--signal) like other rating colors */
+.dist-num { font-size:.62rem; color:var(--muted); margin-top:4px; }
 
-/* flex-wrap lets the whole "📍 3 branches" and "💬 127 reviews" groups
-   drop to a new line if needed, instead of breaking apart internally */
-.card-meta { display: flex; gap: 10px; color: var(--muted); font-size: 0.78rem; flex-wrap: wrap; }
-/* white-space: nowrap keeps each icon glued to its own number/text,
-   so they can never split apart mid-group even with 3-digit numbers */
-.card-meta span { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
-.card-meta svg { width: 13px; height: 13px; flex-shrink: 0; }
-
-/* Second group in the HTML source: rating distribution chart.
-   Appears on the LEFT in Arabic, RIGHT in English — automatic, from dir. */
-.card-distribution { width: 200px; flex-shrink: 0; }
-.dist-label { font-size: 0.72rem; color: var(--muted); margin-bottom: 8px; }
-/* Each bar + its number now live together as one column, so they can
-   never drift apart no matter the screen size. */
-.dist-bars { display: flex; gap: 4px; }
-.dist-col { flex: 1; display: flex; flex-direction: column; align-items: center; }
-.dist-bar-wrap { height: 36px; width: 100%; display: flex; align-items: flex-end; justify-content: center; }
-.dist-bar { width: 55%; background: var(--line); border-radius: 3px 3px 0 0; }
-.dist-bar.filled { background: var(--signal); }
-.dist-num { font-size: 0.62rem; color: var(--muted); margin-top: 4px; }
-.dist-bars i.filled { background: var(--signal); }
-.dist-scale { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--muted); margin-top: 4px; }
-
-@media (max-width: 480px) {
-  .grid { grid-template-columns: 1fr; }
-  .card { flex-direction: column; align-items: stretch; }
-  .card-distribution { width: 100%; }
-}
-/* =====================================================
-   COMPANY PAGE
-   Styling specific to company.html — the back link, the
-   company header stats, and the review cards themselves.
-   ===================================================== */
-.back-link {
-  display: inline-flex; align-items: center; gap: 6px;
-  color: var(--muted); font-size: 0.85rem; text-decoration: none;
-  padding: 20px 0 0;
-}
-.back-link:hover { color: var(--trust); }
-
-.company-header { padding: 20px 0 32px; border-bottom: 1px solid var(--line); }
-.company-header h1 { font-family: 'Fraunces', serif; font-weight: 700; font-size: 2rem; }
-.company-header .sub { color: var(--muted); margin-top: 6px; font-size: 0.9rem; }
-
-/* Row holding the 3 big stat numbers: avg rating, review count, recommend % */
-.company-stat-row { display: flex; gap: 40px; margin-top: 24px; flex-wrap: wrap; }
-.company-stat .big { font-family: 'IBM Plex Mono', monospace; font-size: 2rem; color: var(--trust); }
-.company-stat .lbl { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
-
-/* Container holding all the individual review cards, stacked vertically */
-.review-list { padding: 32px 0 60px; display: flex; flex-direction: column; gap: 16px; }
-
-/* One individual review card */
-.review { background: var(--slate); border: 1px solid var(--line); border-radius: 10px; padding: 22px; }
-
-/* Top row of a review card: job title/tags on one side, star rating + duration on the other */
-.review-top {
-  display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 8px;
-  padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 14px;
-}
-.review-role { font-weight: 600; font-size: 0.95rem; }        /* job title */
-.review-tags { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }  /* account · branch */
-.stars { color: var(--signal); font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; }
-.review-dates { color: var(--muted); font-size: 0.75rem; font-family: 'IBM Plex Mono', monospace; } /* duration text */
-
-/* Two-column layout for Pros/Cons side by side */
-.pc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-/* min-width: 0 overrides the browser's default behavior of refusing to
-   shrink a grid column smaller than its longest piece of content —
-   without this, long unbroken text pushes the card wider than it should be. */
-.pc-block { min-width: 0; }
-.pc-block h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-.pc-block.pros h4 { color: var(--trust); }
-.pc-block.cons h4 { color: var(--danger); }
-.pc-block p {
-  font-size: 0.88rem;
-  color: var(--bone);
-  white-space: pre-wrap;
-  overflow-wrap: break-word; /* forces long words/links to break instead of overflowing */
-}
-/* Long pros/cons text gets clipped to 3 lines by default... */
-.pc-block p.clamp-text {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-/* ...and expands fully once the "see more" button is clicked */
-.pc-block p.clamp-text.expanded {
-  display: block;
-  -webkit-line-clamp: unset;
-}
-/* The toggle button itself — hidden by default, only shown by JS
-   if a review's text is actually long enough to need clipping */
-.see-more-btn {
-  background: none;
-  border: none;
-  color: var(--trust);
-  font-size: 0.8rem;
-  cursor: pointer;
-  padding: 6px 0 0;
-  display: none;
-  font-family: inherit;
-}
-.see-more-btn.visible { display: inline-block; }
-
-/* =====================================================
-   MOBILE ADJUSTMENTS
-   Applies only on small screens (phones), 560px wide or less.
-   ===================================================== */
-@media (max-width: 560px) {
-  .pc-row { grid-template-columns: 1fr; }   /* stack Pros/Cons instead of side by side */
-  .hero-stats { gap: 22px; }                /* tighten spacing between stat numbers */
+@media (max-width:480px) {
+  .grid { grid-template-columns:1fr; }
+  .card { flex-direction:column; align-items:stretch; }
+  .card-distribution { width:100%; }
 }
 
 /* =====================================================
-   FOOTER
-   Small disclaimer text at the bottom of every page.
+   MINIMAL SUBPAGE TOP BAR — company.html, compare.html, submit-review.html
    ===================================================== */
-footer { border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--muted); font-size: 0.78rem; text-align: center; }
+.page-topbar { display:flex; justify-content:space-between; align-items:center; padding:20px 0; }
+.icon-back-link { width:38px; height:38px; border-radius:50%; border:1px solid var(--line); color:var(--muted); display:flex; align-items:center; justify-content:center; text-decoration:none; }
+.icon-back-link:hover { border-color:var(--trust); color:var(--trust); }
+.icon-back-link svg { width:18px; height:18px; }
+body.rtl .icon-back-link svg { transform:scaleX(-1); } /* "back" points the opposite visual direction in Arabic */
 
-/* Turns off animations for visitors who've set "reduce motion" in their device settings (accessibility) */
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; }
+.back-link { display:inline-flex; align-items:center; gap:6px; color:var(--muted); font-size:.85rem; text-decoration:none; padding:20px 0 0; }
+.back-link:hover { color:var(--trust); }
+
+/* =====================================================
+   COMPANY PAGE — header, tabs, "rate this company" pill
+   ===================================================== */
+.company-header { padding:20px 0 32px; border-bottom:1px solid var(--line); }
+.company-header h1 { font-family:'Fraunces', serif; font-weight:700; font-size:2rem; }
+.company-header .sub { color:var(--muted); margin-top:6px; font-size:.9rem; }
+
+.tab-bar { display:flex; justify-content:space-between; align-items:center; gap:16px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+.tab-bar-tabs { display:flex; gap:24px; }
+.tab-btn { background:none; border:none; cursor:pointer; font-family:inherit; padding:0 0 12px; font-size:.9rem; color:var(--muted); border-bottom:2px solid transparent; }
+.tab-btn.active { color:var(--signal); border-bottom-color:var(--signal); font-weight:500; }
+.tab-panel { padding:24px 0 40px; }
+.tab-panel.hidden { display:none; }
+
+.rate-company-btn { display:inline-flex; align-items:center; gap:5px; background:var(--slate-2); border:1px solid var(--line); border-radius:20px; padding:5px 12px 5px 10px; margin-bottom:8px; font-size:.78rem; color:var(--signal); text-decoration:none; }
+body.rtl .rate-company-btn { padding:5px 10px 5px 12px; }
+.rate-company-btn:hover { border-color:var(--signal); }
+.rate-company-btn svg { width:14px; height:14px; }
+
+/* =====================================================
+   COMPANY OVERVIEW (Overview tab: company info card + pills + links)
+   NOTE: background:var(--surface) and color:var(--text) below reference
+   variables that aren't defined in the theme tokens at the top of this
+   file — currently falling back to transparent/inherited rather than
+   an actual defined value. Flagging, not changing, per your request.
+   ===================================================== */
+.overview-card { display:flex; flex-direction:column; gap:24px; margin-bottom:28px; }
+.overview-description { margin:0; padding:18px 20px; background:var(--surface); border:1px solid var(--line); border-radius:18px; line-height:1.8; color:var(--text); font-size:.97rem; }
+.overview-table { border:1px solid var(--line); border-radius:18px; overflow:hidden; background:var(--surface); }
+.overview-row { display:flex; align-items:flex-start; gap:6px; padding:14px 18px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+.overview-row:last-child { border-bottom:none; }
+.overview-label { color:var(--muted); font-weight:600; flex-shrink:0; }
+.overview-value { color:var(--text); flex:1; }
+.overview-section h4 { margin:0 0 10px; font-size:.9rem; }
+.overview-pills { display:flex; flex-wrap:wrap; gap:10px; }
+.overview-pill { padding:7px 14px; border-radius:999px; background:var(--surface); border:1px solid var(--line); font-size:.82rem; }
+.overview-links { display:flex; gap:14px; }
+.overview-links a { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--line); color:var(--muted); text-decoration:none; transition:.2s; }
+.overview-links a svg { width:20px; height:20px; }
+.overview-links a:hover { transform:translateY(-2px); border-color:#2d6cdf; } /* NOTE: hardcoded blue, same as .dist-bar.filled */
+
+/* =====================================================
+   REVIEWS TAB: SUMMARY BOX (rating + category list, above the review list)
+   Includes your collapsible/expandable variant.
+   ===================================================== */
+.reviews-summary-box { background:var(--slate); border:1px solid var(--line); border-radius:12px; padding:20px; margin-bottom:0; }
+.reviews-summary-header { display:flex; gap:14px; align-items:center; margin-bottom:18px; }
+.reviews-summary-header.clickable { cursor:pointer; display:flex; justify-content:space-between; align-items:center; transition:opacity .2s ease; }
+.reviews-summary-header.clickable:hover { opacity:.8; }
+.summary-expand-icon { font-size:.8rem; color:var(--muted); transition:transform .3s ease; }
+.reviews-summary-box.expanded .summary-expand-icon { transform:rotate(180deg); }
+.reviews-summary-box .collapsible-area { display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--line); }
+.reviews-summary-box.expanded .collapsible-area { display:flex; }
+.reviews-summary-toprow { display:flex; align-items:center; gap:8px; margin-top:4px; flex-wrap:wrap; }
+.reviews-summary-num { font-family:'IBM Plex Mono', monospace; font-size:1.6rem; font-weight:600; }
+.reviews-summary-stars { color:var(--signal); font-size:.95rem; }
+.reviews-summary-count { color:var(--muted); font-size:.8rem; }
+.cat-list { display:flex; flex-direction:column; gap:10px; }
+.cat-list-row { display:flex; align-items:baseline; gap:8px; font-size:.85rem; }
+.cat-list-star { color:var(--signal); }
+.cat-list-num { font-weight:600; min-width:24px; }
+.cat-list-label { color:var(--muted); }
+
+/* =====================================================
+   REVIEW LIST + INDIVIDUAL REVIEW CARD
+   ===================================================== */
+.review-list { padding:32px 0 60px; display:flex; flex-direction:column; gap:16px; }
+.review { background:var(--slate); border:1px solid var(--line); border-radius:10px; padding:22px; padding-bottom:34px; position:relative; }
+.review-timestamp { position:absolute; bottom:10px; inset-inline-end:16px; font-size:.7rem; color:var(--muted); } /* flips corner automatically */
+
+/* Older row-based layout (job title/tags one side, rating other) — kept as-is */
+.review-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding-bottom:12px; border-bottom:1px solid var(--line); margin-bottom:14px; }
+.review-top > div:first-child { flex:1; min-width:0; }
+.review-top > div:last-child { flex-shrink:0; }
+.review-role { font-weight:600; font-size:.95rem; }
+.review-tags { color:var(--muted); font-size:.8rem; margin-top:2px; }
+
+/* Current identity row: anonymous avatar + employment status, like a reviewer name */
+.review-identity { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:14px; }
+.review-identity-left { display:flex; align-items:center; gap:10px; }
+.review-avatar { width:36px; height:36px; border-radius:50%; background:var(--slate-2); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--muted); }
+.review-avatar svg { width:18px; height:18px; }
+.review-status-name { font-weight:600; font-size:.95rem; margin:0; }
+.review-jobtitle { font-size:.85rem; color:var(--muted); margin:0 0 10px; }
+
+.review-meta-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; } /* icon-based, no emoji */
+.meta-pill { background:var(--slate-2); border-radius:20px; padding:3px 10px 3px 8px; font-size:.72rem; color:var(--muted); display:inline-flex; align-items:center; gap:4px; }
+body.rtl .meta-pill { padding:3px 8px 3px 10px; }
+.meta-pill svg { width:12px; height:12px; flex-shrink:0; }
+.review-divider { border:none; border-top:1px solid var(--line); margin:0 0 16px; }
+
+/* Perks/benefits bubbles */
+.review-package { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+.perk-pill { background:var(--slate-2); border:1px solid var(--line); border-radius:20px; padding:4px 12px; font-size:.75rem; color:var(--bone); display:inline-block; }
+
+/* Pros/Cons, side by side, stacked on mobile */
+.pc-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.pc-block { min-width:0; } /* stops long unbroken text from widening the grid column */
+.pc-block h4 { font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+.pc-block.pros h4 { color:var(--trust); }
+.pc-block.cons h4 { color:var(--danger); }
+/* Pros/cons text is always Arabic regardless of site UI language, so this font is locked, not tied to body.rtl */
+.pc-block p { font-size:.88rem; color:var(--bone); white-space:pre-wrap; overflow-wrap:break-word; font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif; }
+.pc-block p.clamp-text { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.pc-block p.clamp-text.expanded { display:block; -webkit-line-clamp:unset; }
+.see-more-btn { background:none; border:none; color:var(--trust); font-size:.8rem; cursor:pointer; padding:6px 0 0; display:none; font-family:inherit; }
+.see-more-btn.visible { display:inline-block; }
+
+/* =====================================================
+   BACK TO TOP BUTTON
+   ===================================================== */
+.back-to-top { position:fixed; bottom:24px; inset-inline-end:24px; width:44px; height:44px; border-radius:50%; background:var(--signal); color:var(--ink); border:none; cursor:pointer; display:none; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(0,0,0,.3); z-index:20; }
+.back-to-top.visible { display:flex; }
+.back-to-top svg { width:20px; height:20px; }
+
+/* =====================================================
+   RADAR CHART — company page, averaged across all reviews
+   ===================================================== */
+.radar-section { text-align:center; }
+.radar-chart { max-width:300px; width:100%; margin:0 auto; }
+.radar-ring { fill:none; stroke:var(--line); stroke-width:1; }
+.radar-spoke { stroke:var(--line); stroke-width:1; }
+.radar-shape { fill:var(--signal); fill-opacity:.22; stroke:var(--signal); stroke-width:2; }
+.radar-point { fill:var(--signal); }
+.radar-label { fill:var(--muted); font-size:10px; }
+body.rtl .radar-label { font-family:'IBM Plex Sans Arabic', sans-serif; }
+
+/* =====================================================
+   CATEGORY STAR BUTTON + TOOLTIP (per-review, 1-5 scale)
+   ===================================================== */
+.cat-rating { position:relative; display:inline-block; }
+.cat-stars-btn { background:transparent; border:none; padding:3px 0; cursor:pointer; display:inline-flex; align-items:center; gap:4px; color:var(--signal); font-size:1.25rem; font-family:inherit; transition:opacity .2s ease; }
+.cat-stars-btn:hover { opacity:.75; }
+.cat-stars-btn .star-empty { opacity:.4; }
+.cat-score { color:var(--bone); font-weight:700; font-size:.9rem; margin-inline-start:4px; }
+.cat-stars-btn::after { content:"🔽"; font-size:.65rem; color:var(--muted); margin-inline-start:4px; transition:transform .2s ease; }
+.cat-stars-btn.open::after { transform:rotate(180deg); }
+.cat-tooltip { display:none; position:absolute; top:100%; margin-top:8px; background:var(--slate-2); border:1px solid var(--line); padding:12px 14px; border-radius:6px; z-index:10; width:max-content; max-width:85vw; font-size:.82rem; box-shadow:0 4px 12px rgba(0,0,0,.2); }
+.cat-tooltip.open { display:block; }
+.cat-tooltip div { display:flex; justify-content:space-between; align-items:center; gap:24px; white-space:nowrap; margin-bottom:8px; }
+.cat-tooltip div:last-child { margin-bottom:0; }
+
+/* =====================================================
+   ABOUT PAGE
+   ===================================================== */
+.about-section { margin-bottom:48px; }
+.about-section h2 { margin-bottom:14px; }
+.about-section p { line-height:1.9; margin-bottom:14px; }
+.about-section h1 { font-family:'Fraunces', serif; font-weight:700; font-size:1.8rem; margin-bottom:14px; } /* Story heading is the page's main h1 now */
+body.rtl .about-section h1 { font-family:'Markazi Text', serif; font-size:2.1rem; }
+.about-section:last-of-type { border-top:1px solid var(--line); padding-top:32px; }
+
+.contact-text { text-align:center; max-width:700px; margin:0 auto 24px; color:var(--muted); line-height:1.7; }
+.contact-icons { display:flex; justify-content:center; gap:18px; flex-wrap:wrap; }
+.contact-icon { width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--slate-2); border:1px solid var(--line); transition:.2s ease; }
+.contact-icon svg { width:32px; height:32px; }
+.contact-icon:hover { transform:translateY(-3px); border-color:var(--signal); background:var(--slate-2); }
+
+/* =====================================================
+   COMPARE PAGE
+   ===================================================== */
+.compare-heading { font-family:'Fraunces', serif; font-weight:700; font-size:1.7rem; margin:20px 0 6px; }
+body.rtl .compare-heading { font-family:'Markazi Text', serif; font-size:2rem; }
+.compare-top { display:flex; align-items:center; justify-content:center; gap:16px; margin:24px 0 32px; flex-wrap:wrap; } /* slots + radar in one row, stacks on narrow screens */
+.compare-slot { flex:1 1 0; min-width:130px; max-width:220px; min-height:150px; border-radius:14px; cursor:pointer; }
+.compare-slot.empty { border:1.5px dashed var(--line); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--muted); font-size:.8rem; }
+.compare-slot.empty:hover { border-color:var(--signal); color:var(--signal); }
+.compare-slot.empty svg { width:26px; height:26px; }
+/* Filled slot's border-color is set inline per-slot in compare.js to match that company's radar color */
+.compare-slot.filled { background:var(--slate); border:2px solid var(--line); padding:18px 12px; text-align:center; position:relative; cursor:default; }
+.compare-slot .slot-remove { position:absolute; top:8px; inset-inline-start:8px; background:none; border:none; color:var(--muted); cursor:pointer; padding:2px; }
+.compare-slot .slot-remove:hover { color:var(--danger); }
+.compare-slot .card-logo { width:56px; height:56px; margin:0 auto 10px; }
+.compare-slot .company-name { font-size:1rem; font-weight:600; margin:0; }
+.compare-radar-section { text-align:center; }
+
+.compare-rows { display:flex; flex-direction:column; gap:0; padding-bottom:40px; border-radius:10px; overflow:hidden; }
+.compare-row { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:10px; border-bottom:1px solid var(--line); padding:14px 6px; direction:ltr; } /* locked ltr so column order never flips */
+.compare-rows .compare-row:last-child { border-bottom:none; }
+.compare-row:nth-child(odd) { background:var(--slate); }
+.compare-row:nth-child(even) { background:var(--slate-2); } /* zebra striping */
+.compare-row .label { font-size:.92rem; color:var(--muted); text-align:center; }
+.compare-row .val { font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:1.1rem; color:var(--muted); display:flex; align-items:center; gap:6px; }
+.compare-row .val.a { justify-content:flex-start; }
+.compare-row .val.b { justify-content:flex-end; }
+body.rtl .compare-row .label { direction:rtl; } /* only the label text flips; row itself stays ltr */
+.compare-row .delta { font-size:.8rem; font-weight:500; }
+.compare-row .delta.win { color:var(--trust); }
+.compare-row .delta.lose { color:var(--danger); }
+
+/* Rating badge: colored by its own absolute quality (1-5), independent of the other company's score */
+.rating-badge { display:inline-block; min-width:30px; text-align:center; padding:2px 7px; border-radius:6px; color:#000; font-weight:700; }
+.rating-badge.rate-red { background:var(--rate-red); }
+.rating-badge.rate-orange { background:var(--rate-orange); }
+.rating-badge.rate-green { background:var(--rate-green); }
+.rating-badge.rate-blue { background:var(--rate-blue); }
+.rating-badge.rate-none { background:var(--slate-2); color:var(--muted); }
+
+/* Search-and-pick overlay, shared by both compare slots */
+.picker-overlay { position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; z-index:40; padding:20px; }
+.picker-overlay.open { display:flex; }
+.picker-box { background:var(--slate); border:1px solid var(--line); border-radius:14px; width:100%; max-width:420px; max-height:80vh; display:flex; flex-direction:column; overflow:hidden; }
+.picker-header { display:flex; justify-content:space-between; align-items:center; padding:16px 18px; border-bottom:1px solid var(--line); font-size:.95rem; font-weight:500; }
+.picker-close { background:none; border:none; color:var(--muted); cursor:pointer; }
+.picker-close svg { width:18px; height:18px; }
+.picker-search { margin:14px 18px; background:var(--slate-2); border:1px solid var(--line); color:var(--bone); border-radius:8px; padding:10px 12px; font-family:inherit; font-size:.85rem; }
+.picker-grid { overflow-y:auto; padding:0 18px 18px; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.picker-item { display:flex; align-items:center; gap:10px; padding:10px; border-radius:8px; background:var(--slate-2); cursor:pointer; font-size:.82rem; }
+.picker-item:hover { outline:1px solid var(--signal); }
+.picker-item .card-logo { width:30px; height:30px; flex-shrink:0; }
+.picker-item.disabled { opacity:.35; pointer-events:none; }
+.lead { color: var(--muted); font-size: .95rem; margin-top: 6px; }
+/* =====================================================
+   FOOTER SOCIAL — icon-only LinkedIn/GitHub/Email/Telegram row
+   ===================================================== */
+.footer-social { display:flex; justify-content:center; align-items:center; gap:12px; margin:48px 0 14px; }
+.footer-social a { width:36px; height:36px; display:flex; justify-content:center; align-items:center; color:var(--muted); border-radius:50%; transition:.2s ease; }
+.footer-social a svg { width:18px; height:18px; }
+.footer-social a:hover { color:var(--signal); transform:translateY(-2px); }
+
+/* =====================================================
+   HAMBURGER NAV MENU — slide-in panel, every page
+   ===================================================== */
+.hamburger-btn { width:38px; height:38px; border-radius:50%; background:transparent; border:1px solid var(--line); color:var(--muted); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.hamburger-btn:hover { border-color:var(--signal); color:var(--signal); }
+.hamburger-btn svg { width:18px; height:18px; }
+
+.nav-overlay { position:fixed; inset:0; background:rgba(0,0,0,.22); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:30; }
+.nav-overlay.open { opacity:1; pointer-events:auto; }
+
+/* Default (English/LTR): slides in from the left */
+.nav-panel { position:fixed; top:0; left:0; height:100%; width:260px; max-width:80vw; background:var(--slate); border-right:1px solid var(--line); padding:24px; transform:translateX(-100%); transition:transform .3s ease; z-index:31; display:flex; flex-direction:column; gap:8px; }
+.nav-panel.open { transform:translateX(0); }
+/* Arabic: opposite side. Keyed off dir="rtl" (present from first paint) rather than body.rtl
+   (only added by JS after DOMContentLoaded) — that gap was the source of the reload flash. */
+html[dir="rtl"] .nav-panel { left:auto; right:0; border-right:none; border-left:1px solid var(--line); transform:translateX(100%); }
+html[dir="rtl"] .nav-panel.open { transform:translateX(0); }
+.nav-close { align-self:flex-end; width:32px; height:32px; background:none; border:none; color:var(--muted); cursor:pointer; margin-bottom:20px; }
+.nav-close svg { width:18px; height:18px; }
+.nav-links { list-style:none; display:flex; flex-direction:column; gap:4px; margin-bottom:24px; }
+.nav-links a { display:block; padding:12px 10px; border-radius:8px; color:var(--bone); text-decoration:none; font-size:.95rem; }
+.nav-links a:hover { background:var(--slate-2); color:var(--signal); }
+.nav-toggles { display:flex; gap:8px; }
+
+/* =====================================================
+   FORM VALIDATION — used on submit-review.html
+   NOTE: check whether this duplicates rules already inline in that
+   page's own <style> block; if identical in both places, safe to
+   remove from one of them.
+   ===================================================== */
+.field-invalid { outline:2px solid var(--danger); outline-offset:6px; border-radius:8px; }
+.field-error-msg { color:var(--danger); font-size:.78rem; margin-top:6px; font-weight:500; }
+
+/* =====================================================
+   MOBILE RATINGS LAYOUT — 2-column bubble grid + chart below on phone,
+   side-by-side on desktop (min-width:992px query further down)
+   ===================================================== */
+.ratings-layout { display:flex; flex-direction:column; align-items:center; gap:20px; width:100%; padding-top:10px; }
+.cat-list { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; } /* overrides the flex-column .cat-list above, on mobile */
+.ratings-right { width:100%; margin:0; display:flex; flex-direction:column; align-items:center; border-top:1px solid var(--line); padding-top:20px; }
+.radar-chart { max-width:240px; max-height:240px; width:100%; } /* overrides the 300px default above, mobile-sized */
+.reviews-heading { margin:0 0 18px; font-size:1.15rem; font-weight:600; color:var(--bone); }
+html[dir="rtl"] .reviews-heading { text-align:right; }
+html[dir="ltr"] .reviews-heading { text-align:left; }
+
+@media (min-width:992px) {
+  .ratings-layout { flex-direction:row; align-items:center; justify-content:space-between; gap:40px; }
+  .ratings-left { flex:1; }
+  .cat-list { display:flex; flex-direction:column; gap:12px; } /* back to a vertical list on desktop */
+  .ratings-right { width:320px; border-top:none; padding-top:0; margin:0; }
+  .radar-chart { max-width:280px; max-height:280px; }
+}
+
+/* =====================================================
+   FOOTER — small disclaimer, every page
+   ===================================================== */
+footer { border-top:1px solid var(--line); padding:24px 0 40px; color:var(--muted); font-size:.78rem; text-align:center; }
+@media (max-width:480px) { footer { padding-inline:16px; } }
+
+/* =====================================================
+   MOBILE ADJUSTMENTS — phones, ≤560px unless noted
+   ===================================================== */
+@media (max-width:560px) {
+  .pc-row { grid-template-columns:1fr; } /* stack Pros/Cons */
+  .hero-stats { gap:22px; }
+}
+@media (max-width:520px) {
+  .compare-row { padding:12px 4px; gap:4px; }
+  .compare-row .label { font-size:.8rem; }
+  .compare-row .val { font-size:.95rem; gap:3px; }
+  .picker-grid { grid-template-columns:1fr; }
+  /* Force both compare slots onto one line as half-width cards, radar chart drops to its own full-width line */
+  .compare-top { gap:12px; }
+  #slot-a { order:1; }
+  #slot-b { order:2; }
+  .compare-slot { flex:1 1 0; max-width:none; min-height:170px; }
+  .compare-radar-section { order:3; flex-basis:100%; }
+}
+
+/* Visitors who've asked their device for less motion get no animation — content appears immediately */
+@media (prefers-reduced-motion:reduce) {
+  * { transition:none !important; }
+  .anim-in { animation:none !important; opacity:1 !important; transform:none !important; }
 }

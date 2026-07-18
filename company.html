@@ -6,122 +6,163 @@
   language choice. They don't need manual editing.
 -->
 <head>
+  <script>
+  // Runs immediately, before anything else loads or paints — applies
+  // the visitor's saved theme/language right away, so there's no flash
+  // of the wrong theme or a mirrored layout while the rest of the page
+  // is still loading.
+  (function() {
+    var theme = localStorage.getItem("ccr_theme") || "dark";
+    var lang = localStorage.getItem("ccr_lang") || "ar";
+    var dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("lang", lang);
+    document.documentElement.setAttribute("dir", dir);
+  })();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Call Center Reviews Egypt</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <!--
-    FONT LOADING
-    Pulls in the 5 font families the site uses:
-    - Fraunces: serif font for English headings
-    - IBM Plex Sans: body text in English mode
-    - IBM Plex Sans Arabic: body text in Arabic mode
-    - IBM Plex Mono: numbers/stats (ratings, review counts)
-    - Markazi Text: serif-style font for Arabic headings
-    To change fonts, edit this link AND the matching names in css/style.css.
+    FONT LOADING — 5 families: Fraunces (English headings), IBM Plex Sans
+    (English body), IBM Plex Sans Arabic (Arabic body), IBM Plex Mono
+    (numbers/stats), Markazi Text (Arabic headings). To change fonts,
+    edit this link AND the matching names in css/style.css.
   -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Markazi+Text:wght@600;700&display=swap" rel="stylesheet">
-
-  <!-- All visual styling (colors, spacing, layout) lives in this file -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="wrap">
+
   <!-- =====================================================
-       HEADER
-       Appears identically at the top of every page: logo,
-       tagline, and the two toggle buttons (language + theme).
+       MINIMAL SUBPAGE TOP BAR
+       Just a back-arrow + hamburger menu, opposite corners.
+       No logo/tagline here — that's homepage-only (see index.html).
+       Same minimal pattern used on compare.html and submit-review.html.
        ===================================================== -->
-  <header>
-    <div class="header-row">
-      <div>
-        <!-- Site name/logo. Clicking it goes back to the homepage. -->
-        <div class="logo"><a href="index.html">Call Center Reviews <span>Egypt</span></a></div>
+  <div class="page-topbar anim-in" style="--delay: 0s">
+    <a class="icon-back-link" href="index.html" aria-label="Back to all companies">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <button class="hamburger-btn" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-panel">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
 
-        <!--
-          Small subtitle under the logo.
-          data-i18n="tagline" means: "fill this text in automatically
-          from the translations dictionary in js/i18n.js, under the
-          key called tagline." You never type Arabic/English text
-          directly here — you edit it in js/i18n.js instead, and it
-          updates on every page at once.
-        -->
-        <div class="tagline" data-i18n="tagline"></div>
-      </div>
-
-      <!-- The two round toggle buttons, top-right (or top-left in Arabic) -->
-      <div class="header-controls">
-        <!-- Switches site language between Arabic and English -->
-        <button class="pill-btn" id="lang-toggle" aria-label="Switch language">EN</button>
-        <!-- Switches site theme between dark and light -->
-        <button class="pill-btn" id="theme-toggle" aria-label="Switch theme">☀</button>
-      </div>
+  <!-- Slide-in navigation menu: identical markup on every page -->
+  <div class="nav-overlay" id="nav-overlay" onclick="closeNav()"></div>
+  <nav class="nav-panel" id="nav-panel" aria-hidden="true">
+    <button class="nav-close" id="nav-close" aria-label="Close menu" onclick="closeNav()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html" data-i18n="navHome"></a></li>
+      <li><a href="submit-review.html" data-i18n="navSubmit"></a></li>
+      <li><a href="compare.html" data-i18n="navCompare"></a></li>
+      <li><a href="about.html" data-i18n="navAbout"></a></li>
+    </ul>
+    <div class="nav-toggles">
+      <button class="pill-btn" id="lang-toggle" aria-label="Switch language">EN</button>
+      <button class="pill-btn" id="theme-toggle" aria-label="Switch theme">☀</button>
     </div>
-  </header>
-
-  <!-- =====================================================
-       BACK LINK
-       Small "← Back to all companies" link, only on this page
-       (the homepage doesn't need it). Text comes from the
-       "backLink" key in js/i18n.js.
-       ===================================================== -->
-  <a class="back-link" href="index.html" data-i18n="backLink"></a>
+  </nav>
 
   <!-- =====================================================
        COMPANY HEADER
-       Shows the company name and 3 key stats (rating, review
-       count, recommend %). The actual numbers are filled in
-       by js/company.js AFTER it downloads data.json — that's
-       why you see placeholder dashes (—) here in the raw HTML.
+       Logo + company name only. The actual logo image and name text
+       are filled in by js/company.js after it downloads data.json —
+       that's why the name shows a placeholder dash (—) here in the
+       raw HTML, and the logo starts with an empty src.
        ===================================================== -->
-  <div class="company-header">
-    <!-- id="cp-name" is filled in by JavaScript with the real company name -->
-    <h1 id="cp-name">—</h1>
-
-    <!-- Static subtitle text, e.g. "Reviews from current and former employees" -->
-    <div class="sub" data-i18n="companySubtitle"></div>
-
-    <div class="company-stat-row">
-      <!-- Average rating out of 10, e.g. "7.4" -->
-      <div class="company-stat">
-        <div class="big" id="cp-rating">—</div>
-        <div class="lbl" data-i18n="avgRating"></div>
+  <div class="company-header anim-in" style="--delay: 0s">
+    <div class="company-title-row">
+      <div class="card-logo">
+        <img id="cp-logo" src="" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="logo-fallback" style="display: none; color: var(--muted); align-items: center; justify-content: center; width: 100%; height: 100%;">
+          <!-- Default building icon, shown if this company has no logo file yet -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width: 24px; height: 24px;">
+            <path d="M4 21V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v15M16 21v-9a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v9M4 21h16M7 8h1M7 11h1M7 14h1M10 8h1M10 11h1M10 14h1"/>
+          </svg>
+        </div>
       </div>
-      <!-- Total number of reviews for this company -->
-      <div class="company-stat">
-        <div class="big" id="cp-count">—</div>
-        <div class="lbl" data-i18n="reviewsCount"></div>
-      </div>
-      <!-- % of reviews rated 6/10 or higher -->
-      <div class="company-stat">
-        <div class="big" id="cp-recommend">—</div>
-        <div class="lbl" data-i18n="wouldRecommend"></div>
+      <div>
+        <h1 id="cp-name">—</h1>
       </div>
     </div>
   </div>
 
   <!-- =====================================================
-       REVIEW LIST
-       Empty container — js/company.js fills this with one
-       review "card" per employee review, after data.json loads.
-       The "loading..." message shows briefly until that happens.
+       TABS
+       Overview / Reviews, pure JS show-hide between the two panels
+       below — no page reload, no URL change. "Rate this company"
+       pill sits opposite the tabs, pre-filled with this company's
+       name by company.js once the page loads.
        ===================================================== -->
-  <div class="review-list" id="review-list">
-    <p class="empty-state" data-i18n="loading"></p>
+  <div class="tab-bar anim-in" style="--delay: 0.1s">
+    <div class="tab-bar-tabs">
+      <button class="tab-btn active" id="tab-btn-overview" onclick="switchTab('overview')" data-i18n="tabOverview"></button>
+      <button class="tab-btn" id="tab-btn-reviews" onclick="switchTab('reviews')" data-i18n="tabReviews"></button>
+    </div>
+    <a class="rate-company-btn" id="rate-company-btn" href="submit-review.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      <span data-i18n="rateCompanyBtn"></span>
+    </a>
+  </div>
+
+  <!-- Wraps both panels so swipe gestures can be detected on either one -->
+  <div id="tab-content">
+    <!-- OVERVIEW TAB: company info + summary sentence + radar chart. Visible by default. -->
+    <div id="tab-panel-overview" class="tab-panel">
+      <div id="company-overview"></div>
+    </div>
+
+    <!-- REVIEWS TAB: summary box + individual review cards. Hidden by default. -->
+    <div id="tab-panel-reviews" class="tab-panel hidden">
+      <div id="reviews-summary-box"></div>
+      <div class="review-list" id="review-list">
+        <p class="empty-state" data-i18n="loading"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Icon-only social links, no text — same pattern as index.html -->
+  <div class="footer-social">
+    <a href="https://www.linkedin.com/in/amx20" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.53-1 1.83-2 3.77-2 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.6c0-1.34-.03-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97V21H9z"/></svg>
+    </a>
+    <a href="https://github.com/amx-20" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49.0-.24-.01-1.04-.01-1.88-2.78.61-3.37-1.21-3.37-1.21-.46-1.19-1.11-1.51-1.11-1.51-.91-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.55 2.34 1.1 2.91.84.09-.66.35-1.1.63-1.36-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+    </a>
+    <a href="mailto:2001ahmedmahmoud@gmail.com" aria-label="Email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18v12H3z"/><path d="M3 6l9 7 9-7"/></svg>
+    </a>
+    <a href="https://t.me/amx_20" target="_blank" rel="noopener" aria-label="Telegram">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 3.5 2.7 10.8c-.9.35-.9 1.6.02 1.9l4.6 1.4 1.8 5.4c.28.85 1.35 1.1 1.98.47l2.7-2.7 4.9 3.6c.8.58 1.95.15 2.13-.83l3.1-15.3c.2-.98-.75-1.75-1.63-1.42z"/></svg>
+    </a>
   </div>
 
   <!-- Small disclaimer text at the very bottom of the page -->
   <footer data-i18n="footer"></footer>
+
+  <!-- Hidden by default, appears via JS once you scroll down far enough -->
+  <button class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
 </div>
 
 <!--
   SCRIPTS (loaded in this order, order matters):
   1. i18n.js    — must load first, sets up translations + toggle buttons
-  2. company.js — fetches data.json and builds the review cards
+  2. nav.js     — hamburger menu open/close logic
+  3. company.js — fetches data.json and builds everything on this page
 -->
 <script src="js/i18n.js"></script>
+<script src="js/nav.js"></script>
 <script src="js/company.js"></script>
 </body>
 </html>

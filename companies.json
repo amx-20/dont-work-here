@@ -1,0 +1,531 @@
+{
+  "Concentrix": {
+    "name": "Concentrix",
+    "website": "https://www.concentrix.com",
+    "industry": "Business Process Outsourcing",
+    "description": "Concentrix is a leading global provider of customer experience solutions and technology. It specializes in delivering digital, cloud-based, and human-centric customer engagement services across diverse industries.",
+    "headquarters": "Newark, California, USA",
+    "parent_company": null,
+    "founded": "1983",
+    "employees_worldwide": "440,000+",
+    "employees_egypt": null,
+    "countries": "70+",
+    "services": [
+      "Customer Service",
+      "Technical Support",
+      "Digital CX",
+      "Sales Solutions",
+      "Back-office"
+    ],
+    "languages": [
+      "English",
+      "Arabic",
+      "French",
+      "German",
+      "Spanish",
+      "Italian"
+    ],
+    "egypt_branches": [
+      "Maadi",
+      "Smart Village",
+      "6th of October",
+      "Alexandria",
+      "New Cairo"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/concentrix",
+    "facebook": "https://www.facebook.com/concentrix",
+    "glassdoor": "https://www.glassdoor.com/Overview/Working-at-Concentrix-EI_IE177435.11,21.htm",
+    "wikipedia": "https://en.wikipedia.org/wiki/Concentrix",
+    "logo": "assets/logos/concentrix.png"
+  },
+  "Foundever": {
+    "name": "Foundever",
+    "website": "https://foundever.com",
+    "industry": "Business Process Outsourcing",
+    "description": "Foundever is a global leader in the customer experience industry, formed by the merger of Sitel Group and Sykes. They provide omnichannel customer support, technical assistance, and digital solutions.",
+    "headquarters": "Miami, Florida, USA",
+    "parent_company": null,
+    "founded": "1985",
+    "employees_worldwide": "170,000+",
+    "employees_egypt": "530+",
+    "countries": "45+",
+    "services": [
+      "Customer Care",
+      "Technical Support",
+      "Digital Business Services",
+      "CX Consulting"
+    ],
+    "languages": [
+      "English",
+      "Arabic",
+      "French",
+      "German",
+      "Spanish"
+    ],
+    "egypt_branches": [
+      "Maadi",
+      "Nasr City"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/foundever",
+    "facebook": "https://www.facebook.com/foundever",
+    "glassdoor": "https://www.glassdoor.com/Overview/Working-at-Foundever-EI_IE5338.11,20.htm",
+    "wikipedia": "https://en.wikipedia.org/wiki/Foundever",
+    "logo": "assets/logos/foundever.png"
+  },
+  "Teleperformance": {
+    "name": "Teleperformance",
+    "website": "https://www.teleperformance.com",
+    "industry": "Business Process Outsourcing",
+    "description": "Teleperformance is a global leader in digital integrated business services, specializing in customer care, technical support, and customer acquisition. They have a significant, long-term operational presence in Egypt.",
+    "headquarters": "Paris, France",
+    "parent_company": null,
+    "founded": "1978",
+    "employees_worldwide": "500,000+",
+    "employees_egypt": null,
+    "countries": "95+",
+    "services": [
+      "Customer Care",
+      "Technical Support",
+      "Content Moderation",
+      "Telesales"
+    ],
+    "languages": [
+      "English",
+      "Arabic",
+      "French",
+      "German",
+      "Spanish",
+      "Italian"
+    ],
+    "egypt_branches": [
+      "Smart Village",
+      "New Cairo",
+      "Alexandria",
+      "Mohandeseen",
+      "Nasr City"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/teleperformance",
+    "facebook": "https://www.facebook.com/teleperformance",
+    "glassdoor": "https://www.glassdoor.com/Overview/Working-at-Teleperformance-EI_IE177436.11,25.htm",
+    "wikipedia": "https://en.wikipedia.org/wiki/Teleperformance",
+    "logo": "assets/logos/teleperformance.png"
+  },
+  "Intelcia": {
+    "name": "Intelcia",
+    "website": "https://www.intelcia.com",
+    "industry": "Business Process Outsourcing",
+    "description": "Intelcia provides comprehensive customer relationship management, IT solutions, and BPO services. Since entering the Egyptian market, they have focused on multilingual hubs for international clients.",
+    "headquarters": "Casablanca, Morocco",
+    "parent_company": "Altice",
+    "founded": "2000",
+    "employees_worldwide": "40,000+",
+    "employees_egypt": null,
+    "countries": "17+",
+    "services": [
+      "CRM",
+      "Technical Support",
+      "IT Solutions",
+      "BPO"
+    ],
+    "languages": [
+      "English",
+      "Arabic",
+      "French",
+      "German"
+    ],
+    "egypt_branches": [
+      "Sheikh Zayed",
+      "Alexandria",
+      "Cairo Festival City"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/intelcia",
+    "facebook": "https://www.facebook.com/intelcia",
+    "glassdoor": "https://www.glassdoor.com/Overview/Working-at-Intelcia-EI_IE313936.11,19.htm",
+    "wikipedia": null,
+    "logo": "assets/logos/intelcia.png"
+  },
+  "Raya CX": {
+    "name": "Raya Customer Experience",
+    "website": "https://www.rayacx.com",
+    "industry": "Business Process Outsourcing",
+    "description": "Raya CX is a major regional BPO provider offering contact center, back-office, and digital transformation services. It is a key subsidiary of the Egyptian Raya Holding company.",
+    "headquarters": "Cairo, Egypt",
+    "parent_company": "Raya Holding",
+    "founded": "2001",
+    "employees_worldwide": "7,000+",
+    "employees_egypt": null,
+    "countries": "4",
+    "services": [
+      "Customer Experience",
+      "Technical Support",
+      "Back Office",
+      "Data Analytics"
+    ],
+    "languages": [
+      "Arabic",
+      "English",
+      "French",
+      "German"
+    ],
+    "egypt_branches": [
+      "Giza",
+      "Cairo",
+      "Alexandria",
+      "Hurghada"
+    ],
+    "work_model": "On-site",
+    "linkedin": "https://www.linkedin.com/company/raya-customer-experience",
+    "facebook": "https://www.facebook.com/RayaCX",
+    "glassdoor": null,
+    "wikipedia": null,
+    "logo": "assets/logos/raya-cx.png"
+  },
+  "Sutherland": {
+    "name": "Sutherland",
+    "website": "https://www.sutherlandglobal.com",
+    "industry": "Business Process Outsourcing",
+    "description": "Sutherland is an experience-led digital transformation company. They provide process transformation, data analytics, and customer engagement services to diverse global enterprises.",
+    "headquarters": "Pittsford, New York, USA",
+    "parent_company": null,
+    "founded": "1986",
+    "employees_worldwide": "38,000+",
+    "employees_egypt": null,
+    "countries": "14+",
+    "services": [
+      "Digital Transformation",
+      "Customer Engagement",
+      "Technical Support",
+      "Data Analytics"
+    ],
+    "languages": [
+      "English",
+      "Arabic",
+      "French"
+    ],
+    "egypt_branches": [
+      "Alexandria",
+      "Cairo",
+      "New Cairo"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/sutherland",
+    "facebook": "https://www.facebook.com/SutherlandGlobal",
+    "glassdoor": "https://www.glassdoor.com/Overview/Working-at-Sutherland-EI_IE26484.11,21.htm",
+    "wikipedia": "https://en.wikipedia.org/wiki/Sutherland_Global_Services",
+    "logo": "assets/logos/sutherland.png"
+  },
+  "Capgemini": {
+    "name": "Capgemini",
+    "website": "https://www.capgemini.com",
+    "industry": "IT and Consulting",
+    "description": "Capgemini is a global leader in business transformation through technology. Its Egyptian operations act as a Global Delivery Centre providing sophisticated IT and BPO support.",
+    "headquarters": "Paris, France",
+    "parent_company": null,
+    "founded": "1967",
+    "employees_worldwide": "340,000+",
+    "employees_egypt": null,
+    "countries": "50+",
+    "services": [
+      "IT Consulting",
+      "Customer Service",
+      "Technical Support",
+      "Engineering"
+    ],
+    "languages": [
+      "English",
+      "Arabic",
+      "French",
+      "German"
+    ],
+    "egypt_branches": [
+      "Smart Village",
+      "New Cairo",
+      "Alexandria"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/capgemini",
+    "facebook": "https://www.facebook.com/Capgemini",
+    "glassdoor": "https://www.glassdoor.com/Overview/Working-at-Capgemini-EI_IE3803.11,20.htm",
+    "wikipedia": "https://en.wikipedia.org/wiki/Capgemini",
+    "logo": "assets/logos/capgemini.png"
+  },
+  "Majorel": {
+    "name": "Majorel",
+    "website": "https://www.majorel.com",
+    "industry": "Business Process Outsourcing",
+    "description": "Majorel designs and delivers end-to-end customer experience (CX) solutions. It operates several large delivery centers in Egypt and is now part of the Teleperformance Group.",
+    "headquarters": "Luxembourg",
+    "parent_company": "Teleperformance",
+    "founded": "2019",
+    "employees_worldwide": "82,000+",
+    "employees_egypt": "8,000+",
+    "countries": "45",
+    "services": [
+      "Customer Experience",
+      "Content Moderation",
+      "Technical Support",
+      "Telesales"
+    ],
+    "languages": [
+      "English",
+      "Arabic",
+      "French",
+      "German",
+      "Spanish",
+      "Italian"
+    ],
+    "egypt_branches": [
+      "Smart Village",
+      "Cairo",
+      "Alexandria"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/majorel",
+    "facebook": "https://www.facebook.com/Majorel.Egypt",
+    "glassdoor": "https://www.glassdoor.com/Overview/Working-at-Majorel-EI_IE2681534.11,18.htm",
+    "wikipedia": "https://en.wikipedia.org/wiki/Majorel",
+    "logo": "assets/logos/majorel.png"
+  },
+  "Xceed": {
+    "name": "Xceed",
+    "website": "https://www.xceedcc.com",
+    "industry": "Business Process Outsourcing",
+    "description": "Xceed is a premium provider of multi-lingual BPO services. Backed by Telecom Egypt, it manages significant operations serving both domestic and international markets.",
+    "headquarters": "Cairo, Egypt",
+    "parent_company": "Telecom Egypt",
+    "founded": "2001",
+    "employees_worldwide": "10,000+",
+    "employees_egypt": null,
+    "countries": "3",
+    "services": [
+      "Customer Support",
+      "Technical Support",
+      "Telemarketing",
+      "Social Media"
+    ],
+    "languages": [
+      "Arabic",
+      "English",
+      "French",
+      "German",
+      "Italian",
+      "Spanish"
+    ],
+    "egypt_branches": [
+      "Smart Village",
+      "Maadi",
+      "Alexandria",
+      "Cairo"
+    ],
+    "work_model": "On-site",
+    "linkedin": "https://www.linkedin.com/company/xceed",
+    "facebook": "https://www.facebook.com/xceedcc",
+    "glassdoor": null,
+    "wikipedia": null,
+    "logo": "assets/logos/xceed.png"
+  },
+  "Etisalat Global Services": {
+    "name": "Etisalat Global Services (EGS)",
+    "website": "https://egs.etisalat.eg",
+    "industry": "Business Process Outsourcing",
+    "description": "A subsidiary of e&, Etisalat Global Services leverages Egypt's multilingual talent pool to provide global BPO and customer experience management.",
+    "headquarters": "Cairo, Egypt",
+    "parent_company": "e& (Etisalat)",
+    "founded": "2007",
+    "employees_worldwide": null,
+    "employees_egypt": null,
+    "countries": "1",
+    "services": [
+      "Customer Experience",
+      "Technical Support",
+      "Telesales",
+      "Back Office"
+    ],
+    "languages": [
+      "Arabic",
+      "English",
+      "French",
+      "German"
+    ],
+    "egypt_branches": [
+      "Maadi",
+      "6th of October",
+      "Alexandria"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/etisalat-global-services",
+    "facebook": "https://www.facebook.com/EtisalatGlobalServices",
+    "glassdoor": null,
+    "wikipedia": null,
+    "logo": "assets/logos/etisal-international.png"
+  },
+  "Vodafone Intelligent Solutions": {
+    "name": "Vodafone Intelligent Solutions (_VOIS)",
+    "website": "https://www.vodafone.com/vois",
+    "industry": "IT and Services",
+    "description": "_VOIS is the strategic hub for Vodafone Group, delivering IT, customer care, and shared services. Egypt is a critical location in their global delivery network.",
+    "headquarters": "London, UK",
+    "parent_company": "Vodafone Group",
+    "founded": "2006",
+    "employees_worldwide": "24,000+",
+    "employees_egypt": "8,000+",
+    "countries": "6",
+    "services": [
+      "Customer Care",
+      "IT Solutions",
+      "Data Analytics",
+      "Finance Operations"
+    ],
+    "languages": [
+      "Arabic",
+      "English",
+      "German",
+      "Italian"
+    ],
+    "egypt_branches": [
+      "Smart Village",
+      "Alexandria"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/vodafone-intelligent-solutions",
+    "facebook": null,
+    "glassdoor": null,
+    "wikipedia": null,
+    "logo": "assets/logos/vodafone.png"
+  },
+  "TTEC": {
+    "name": "TTEC",
+    "website": "https://www.ttec.com",
+    "industry": "Business Process Outsourcing",
+    "description": "TTEC is a leading global customer experience technology and services company that designs and operates omnichannel experiences for major brands.",
+    "headquarters": "Englewood, Colorado, USA",
+    "parent_company": null,
+    "founded": "1982",
+    "employees_worldwide": "60,000+",
+    "employees_egypt": null,
+    "countries": "20+",
+    "services": [
+      "Customer Care",
+      "Technical Support",
+      "Sales",
+      "CX Consulting"
+    ],
+    "languages": [
+      "English",
+      "Arabic",
+      "French",
+      "German"
+    ],
+    "egypt_branches": [
+      "Cairo",
+      "Maadi",
+      "Nasr City"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/ttec",
+    "facebook": "https://www.facebook.com/tteccorp",
+    "glassdoor": "https://www.glassdoor.com/Overview/Working-at-TTEC-EI_IE177437.11,15.htm",
+    "wikipedia": "https://en.wikipedia.org/wiki/TTEC",
+    "logo": "assets/logos/ttec.png"
+  },
+  "ContactPoint 360": {
+    "name": "ContactPoint 360",
+    "website": "https://contactpoint360.com",
+    "industry": "Business Process Outsourcing",
+    "description": "ContactPoint 360 offers global contact center and BPO solutions, emphasizing a people-first culture and innovative technologies.",
+    "headquarters": "Mississauga, Canada",
+    "parent_company": null,
+    "founded": "2007",
+    "employees_worldwide": null,
+    "employees_egypt": null,
+    "countries": "7+",
+    "services": [
+      "Customer Experience",
+      "Technical Support",
+      "Sales",
+      "Back Office"
+    ],
+    "languages": [
+      "English",
+      "Arabic",
+      "French"
+    ],
+    "egypt_branches": [
+      "Cairo",
+      "Alexandria"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/contactpoint-360",
+    "facebook": "https://www.facebook.com/ContactPoint360",
+    "glassdoor": null,
+    "wikipedia": null,
+    "logo": "assets/logos/contactPoint 360.png"
+  },
+  "Wasla Contact Center": {
+    "name": "Wasla Contact Center",
+    "website": "https://www.wasla.com",
+    "industry": "Business Process Outsourcing",
+    "description": "Wasla Outsourcing is an Egyptian BPO provider offering customer management and telesales solutions. They focus on delivering high-quality, scalable support across the MENA region.",
+    "headquarters": "Cairo, Egypt",
+    "parent_company": null,
+    "founded": "2003",
+    "employees_worldwide": null,
+    "employees_egypt": null,
+    "countries": "1",
+    "services": [
+      "Customer Support",
+      "Telesales",
+      "Technical Support",
+      "Data Processing"
+    ],
+    "languages": [
+      "Arabic",
+      "English",
+      "French"
+    ],
+    "egypt_branches": [
+      "Cairo",
+      "Maadi"
+    ],
+    "work_model": "On-site",
+    "linkedin": "https://www.linkedin.com/company/wasla-outsourcing",
+    "facebook": null,
+    "glassdoor": null,
+    "wikipedia": null,
+    "logo": "assets/logos/wasla.png"
+  },
+  "BPO Plus": {
+    "name": "BPO Plus",
+    "website": "https://www.bpo-plus.com",
+    "industry": "Business Process Outsourcing",
+    "description": "BPO Plus is a regional outsourcing provider that manages critical business processes across multiple verticals including healthcare and finance.",
+    "headquarters": "Manama, Bahrain",
+    "parent_company": null,
+    "founded": "2013",
+    "employees_worldwide": null,
+    "employees_egypt": null,
+    "countries": "Multiple",
+    "services": [
+      "Call Center",
+      "Technology Services",
+      "Operations Management"
+    ],
+    "languages": [
+      "Arabic",
+      "English"
+    ],
+    "egypt_branches": [
+      "Cairo"
+    ],
+    "work_model": "Hybrid",
+    "linkedin": "https://www.linkedin.com/company/bpo-plus",
+    "facebook": null,
+    "glassdoor": null,
+    "wikipedia": null,
+    "logo": "assets/logos/bpo-plus.png"
+  }
+}
